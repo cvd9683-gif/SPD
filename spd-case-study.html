@@ -1,0 +1,2909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SPD Website Redesign — UX Case Study</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Oswald:wght@500;600;700&family=DM+Serif+Display&display=swap">
+
+<style>
+  /* ============================================================
+     SPD WEBSITE REDESIGN — UX CASE STUDY
+     Process embedded throughout. Layout varies per section.
+     ============================================================ */
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Archivo", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+  :root {
+    --bg: #FBF8F8;
+    --bg-soft: #F2EEEE;
+    --surface: #ffffff;
+    --text: #363537;
+    --text-muted: #6c6a6e;
+    --text-faint: #a09ea1;
+    --border: rgba(54, 53, 55, 0.14);
+    --border-strong: rgba(54, 53, 55, 0.32);
+    --accent: #EF4022;
+    --soft: #C3D0D5;
+    --navy: #000244;
+    --radius-pill: 999px;
+    --max: 1240px;
+    --max-wide: 1440px;
+    --max-narrow: 780px;
+    --gutter: 48px;
+
+    --font-display: "Oswald", "Archivo Narrow", "Archivo", sans-serif;
+    --font-body: "Archivo", -apple-system, sans-serif;
+    --font-serif: "DM Serif Display", "Times New Roman", serif;
+  }
+
+  ::selection { background: var(--accent); color: #fff; }
+
+  .container { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+  .container--wide { max-width: var(--max-wide); }
+  .container--narrow { max-width: var(--max-narrow); }
+
+  section {
+    padding: 140px 0;
+    border-top: 1px solid var(--border);
+    position: relative;
+  }
+  section:first-of-type { border-top: none; }
+
+  /* Section variants */
+  section.section--bleed {
+    background: var(--accent);
+    color: #fff;
+    border-top: none;
+    padding: 120px 0;
+  }
+  section.section--bleed + section { border-top: none; }
+  section.section--soft { background: var(--bg-soft); }
+  section.section--narrow { padding: 100px 0; }
+
+  /* ---------- Top SPD-style nav ---------- */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(251, 248, 248, 0.92);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner { display: flex; align-items: stretch; height: 64px; }
+  .nav-logo {
+    background: var(--accent);
+    color: #fff;
+    width: 64px;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 22px;
+  }
+  .nav-mark {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 24px;
+    font-size: 11px;
+    line-height: 1.25;
+    color: var(--accent);
+    font-weight: 600;
+    border-right: 1px solid var(--border);
+  }
+  .nav-mark .label {
+    color: var(--text-faint);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 10px;
+    margin-bottom: 2px;
+  }
+  .nav-links { display: flex; align-items: center; padding: 0 8px; flex: 1; }
+  .nav-links a {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--text-muted);
+    padding: 0 14px;
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    transition: color .15s ease;
+  }
+  .nav-links a:hover, .nav-links a.is-active { color: var(--text); }
+  .nav-cta {
+    align-self: center;
+    margin-left: auto;
+    margin-right: 8px;
+    padding: 10px 20px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: var(--radius-pill);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 96px 0 72px; }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 36px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 28px;
+    height: 2px;
+    background: var(--accent);
+    display: inline-block;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(56px, 8.5vw, 132px);
+    line-height: 0.94;
+    letter-spacing: -0.01em;
+    margin: 0 0 36px;
+    max-width: 18ch;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero .lede {
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--text-muted);
+    max-width: 62ch;
+    margin: 0 0 64px;
+  }
+
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--border-strong);
+    border-bottom: 1px solid var(--border-strong);
+    margin-bottom: 80px;
+  }
+  .meta-cell {
+    padding: 22px 28px 22px 0;
+    border-right: 1px solid var(--border);
+  }
+  .meta-cell:last-child { border-right: none; padding-right: 0; }
+  .meta-cell .label {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .meta-cell .value { font-size: 15px; font-weight: 500; }
+
+  .hero-cover {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .cover-panel {
+    background: var(--accent);
+    color: #fff;
+    padding: 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 460px;
+  }
+  .cover-panel .kicker {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0.85;
+    margin-bottom: 24px;
+  }
+  .cover-panel h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(30px, 3vw, 46px);
+    line-height: 1.05;
+    margin: 0 0 22px;
+    max-width: 18ch;
+  }
+  .cover-panel p {
+    font-size: 15px;
+    line-height: 1.55;
+    opacity: 0.92;
+    max-width: 38ch;
+    margin: 0;
+  }
+  .cover-panel .swatches { display: flex; gap: 10px; margin-top: 32px; }
+  .cover-panel .swatches span {
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.7);
+  }
+  .cover-photo {
+    background: var(--bg-soft);
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+  }
+  .cover-photo .photo-bw {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(120% 60% at 30% 20%, rgba(255,255,255,0.85), transparent 60%),
+      radial-gradient(80% 80% at 80% 90%, rgba(54,53,55,0.55), transparent 60%),
+      linear-gradient(135deg, #d8d4d4 0%, #a8a4a4 100%);
+    filter: grayscale(100%) contrast(1.08);
+  }
+  .cover-photo .photo-overlay {
+    position: relative;
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--accent);
+    font-size: clamp(40px, 6vw, 96px);
+    line-height: 0.9;
+    transform: rotate(-4deg);
+    text-align: center;
+    mix-blend-mode: multiply;
+  }
+  .cover-photo .photo-overlay small {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 12px;
+    color: var(--accent);
+    transform: rotate(0deg);
+  }
+
+  /* ---------- Section heads ---------- */
+  /* Default: two-column with number + title */
+  .section-head {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 56px;
+    margin-bottom: 72px;
+    align-items: start;
+  }
+  .section-num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 96px;
+    line-height: 0.9;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+  }
+  .section-num small {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-top: 14px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(34px, 4.2vw, 60px);
+    line-height: 1.05;
+    letter-spacing: -0.005em;
+    margin: 0 0 22px;
+    max-width: 22ch;
+  }
+  .section-kicker {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--text-muted);
+    max-width: 62ch;
+    margin: 0;
+  }
+
+  /* Variant: stacked head (no fixed left column) */
+  .section-head--stacked { display: block; max-width: 880px; margin-bottom: 56px; }
+  .section-head--stacked .section-num { font-size: 56px; margin-bottom: 18px; }
+  .section-head--stacked .section-num small { display: inline; margin-left: 12px; font-size: 11px; vertical-align: middle; }
+
+  /* Variant: bleed (red full-bleed editorial break) */
+  .section--bleed .section-num { color: rgba(255,255,255,0.85); }
+  .section--bleed .section-num small { color: rgba(255,255,255,0.6); }
+  .section--bleed .section-title { color: #fff; max-width: 26ch; }
+  .section--bleed .section-kicker { color: rgba(255,255,255,0.92); }
+
+  .section-body {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 56px;
+  }
+  .section-body--full { display: block; }
+  .section-body--narrow { display: block; max-width: 720px; }
+  .section-body > .spacer { display: block; }
+
+  /* ---------- Sub-divider ---------- */
+  .sub-divider {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin: 80px 0 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border-strong);
+  }
+  .sub-divider .num {
+    font-family: var(--font-display);
+    color: var(--accent);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .sub-divider .label {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.1;
+  }
+  .sub-divider .note {
+    margin-left: auto;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 600;
+  }
+  .section--bleed .sub-divider {
+    border-bottom-color: rgba(255,255,255,0.3);
+  }
+  .section--bleed .sub-divider .num,
+  .section--bleed .sub-divider .label { color: #fff; }
+  .section--bleed .sub-divider .note { color: rgba(255,255,255,0.7); }
+
+  .sub-intro {
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    max-width: 64ch;
+    margin: 0 0 28px;
+  }
+  .section--bleed .sub-intro { color: rgba(255,255,255,0.92); }
+
+  /* ---------- Overview (narrow + meta strip) ---------- */
+  .overview-essay {
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--text);
+    max-width: 64ch;
+  }
+  .overview-essay p { margin: 0 0 18px; }
+  .overview-essay p:last-child { margin-bottom: 0; }
+  .overview-essay em {
+    font-style: normal;
+    background: linear-gradient(180deg, transparent 65%, rgba(239,64,34,0.18) 65%);
+  }
+  .overview-strip {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--border-strong);
+    border-bottom: 1px solid var(--border-strong);
+  }
+  .overview-strip > div {
+    padding: 22px 24px 22px 0;
+    border-right: 1px solid var(--border);
+  }
+  .overview-strip > div:last-child { border-right: none; }
+  .overview-strip > div:not(:first-child) { padding-left: 24px; }
+  .overview-strip .label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .overview-strip .value {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.15;
+  }
+
+  /* ---------- Problem list ---------- */
+  .pull-quote {
+    font-family: var(--font-serif);
+    font-size: clamp(26px, 2.6vw, 36px);
+    line-height: 1.2;
+    margin: 0 0 48px;
+    max-width: 28ch;
+    padding-left: 32px;
+    border-left: 3px solid var(--accent);
+  }
+  .pull-quote .attr {
+    display: block;
+    margin-top: 18px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 600;
+  }
+
+  .problem-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--border-strong); }
+  .problem-list li {
+    padding: 24px 0;
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 24px;
+    align-items: baseline;
+    border-bottom: 1px solid var(--border);
+  }
+  .problem-list li .idx {
+    font-family: var(--font-display);
+    color: var(--accent);
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .problem-list li .row-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .problem-list li .row-desc {
+    color: var(--text-muted);
+    font-size: 14.5px;
+    line-height: 1.55;
+    max-width: 64ch;
+  }
+
+  /* ---------- Method cards (stakeholder / user / task analysis) ---------- */
+  .method-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .method-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+  }
+  .method-head {
+    padding: 24px 26px;
+    border-bottom: 1px solid var(--border);
+  }
+  .method-head .label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .method-head h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    margin: 0;
+    line-height: 1.18;
+    font-weight: 600;
+  }
+  .method-meta {
+    padding: 20px 26px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 10px 14px;
+    margin: 0;
+  }
+  .method-meta dt {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 700;
+    padding-top: 2px;
+  }
+  .method-meta dd {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--text-muted);
+  }
+  .method-meta dd b { color: var(--text); font-weight: 600; }
+  .method-status {
+    padding: 14px 26px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .method-status .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--text-faint);
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  .method-status[data-status="done"] .status-dot { background: var(--accent); }
+  .method-status[data-status="progress"] .status-dot {
+    background: var(--accent);
+    animation: pulse 1.6s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  /* Placeholder zone for future artifact insertion */
+  .placeholder-zone {
+    padding: 28px;
+    margin: 14px;
+    background:
+      repeating-linear-gradient(
+        45deg,
+        transparent 0 12px,
+        rgba(54,53,55,0.025) 12px 24px
+      ),
+      var(--bg-soft);
+    border: 1px dashed var(--border-strong);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 180px;
+    gap: 8px;
+  }
+  .placeholder-zone .ph-tag {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .placeholder-zone .ph-title {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--text);
+    max-width: 22ch;
+  }
+  .placeholder-zone .ph-desc {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    max-width: 28ch;
+  }
+  .placeholder-zone .ph-status {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 600;
+    margin-top: 4px;
+  }
+
+  /* ---------- Insights blocks (varied, asymmetric) ---------- */
+  .insight-block {
+    display: grid;
+    gap: 32px;
+    align-items: start;
+    padding: 56px 0;
+    border-top: 1px solid var(--border);
+  }
+  .insight-block:first-of-type { border-top: 1px solid var(--border-strong); }
+  .insight-block.layout-a { grid-template-columns: 5fr 7fr; }
+  .insight-block.layout-b { grid-template-columns: 7fr 5fr; }
+  .insight-block.layout-c { grid-template-columns: 1fr; }
+  .insight-block.layout-d { grid-template-columns: 4fr 8fr; }
+
+  .insight-text .num {
+    font-family: var(--font-display);
+    color: var(--accent);
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    line-height: 1;
+  }
+  .insight-text h3 {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 2.4vw, 34px);
+    letter-spacing: -0.005em;
+    margin: 0 0 16px;
+    font-weight: 600;
+    line-height: 1.12;
+    max-width: 22ch;
+  }
+  .insight-text p {
+    margin: 0 0 14px;
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 56ch;
+  }
+  .insight-text .source {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  /* ============================================================
+     ARTIFACTS
+     ============================================================ */
+  .artifact {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+  }
+  .artifact-image {
+    aspect-ratio: 16 / 10;
+    background: var(--bg-soft);
+    display: grid;
+    place-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .artifact-image.tall { aspect-ratio: 4 / 5; }
+  .artifact-image.wide { aspect-ratio: 16 / 7; }
+  .artifact-image.square { aspect-ratio: 1 / 1; }
+  .artifact .corner-mark {
+    position: absolute;
+    top: 12px; left: 12px;
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    font-weight: 600;
+    z-index: 2;
+  }
+  .artifact-cap {
+    padding: 18px 20px;
+    border-top: 1px solid var(--border);
+    flex: 1;
+  }
+  .artifact-cap .label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .artifact-cap .desc {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.5;
+    margin: 0 0 12px;
+  }
+  .artifact-cap .takeaway {
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+  .artifact-cap .takeaway b {
+    display: block;
+    color: var(--accent);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  /* Existing-site screenshot placeholder */
+  .shot {
+    width: 88%;
+    height: 86%;
+    background: #fff;
+    border: 1px solid #cdc8c8;
+    padding: 14px;
+    display: grid;
+    gap: 8px;
+    grid-template-rows: 18px 32% 1fr;
+    filter: saturate(0.7) brightness(0.98);
+    position: relative;
+  }
+  .shot .topbar {
+    background: linear-gradient(90deg, #c8c4c4 0 60px, #d8d4d4 60px 100%);
+    border-radius: 1px;
+  }
+  .shot .hero-block {
+    background: repeating-linear-gradient(
+      135deg,
+      #d8d4d4 0 8px,
+      #cfcaca 8px 16px
+    );
+    border-radius: 1px;
+  }
+  .shot .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+  .shot .grid > div {
+    background: #ebe7e7;
+    border-radius: 1px;
+    display: grid;
+    gap: 3px;
+    align-content: end;
+    padding: 4px;
+  }
+  .shot .grid > div::before {
+    content: "";
+    background: #d8d4d4;
+    height: 50%;
+    border-radius: 1px;
+  }
+  .shot .annot {
+    position: absolute;
+    border: 1.5px dashed var(--accent);
+    border-radius: 3px;
+    pointer-events: none;
+  }
+  .shot .annot::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: -22px;
+    left: -1px;
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .shot .annot.a1 { top: 6%; left: 4%; width: 92%; height: 14%; }
+  .shot .annot.a2 { top: 24%; left: 4%; width: 92%; height: 32%; }
+  .shot .annot.a3 { top: 60%; left: 4%; width: 46%; height: 36%; }
+  .shot.long { grid-template-rows: 18px 1fr; }
+  .shot.long .lines {
+    display: grid;
+    gap: 6px;
+    align-content: start;
+    padding: 4px 0;
+  }
+  .shot.long .lines > span {
+    background: #d8d4d4;
+    height: 5px;
+    border-radius: 1px;
+  }
+  .shot.long .lines > span:nth-child(4n) { width: 70%; }
+  .shot.long .lines > span:nth-child(7n) { width: 92%; }
+  .shot.long .lines > span:nth-child(3n) { width: 82%; }
+
+  /* Audit matrix */
+  .matrix {
+    width: 88%; height: 86%;
+    background: #fff;
+    border: 1px solid var(--border);
+    padding: 18px;
+    display: grid;
+    gap: 8px;
+    grid-template-rows: auto 1fr;
+  }
+  .matrix .head, .matrix .row {
+    display: grid;
+    grid-template-columns: 100px repeat(4, 1fr);
+    gap: 4px;
+  }
+  .matrix .head span, .matrix .row .label {
+    font-family: var(--font-display);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 600;
+    padding: 4px 2px;
+  }
+  .matrix .body { display: grid; gap: 4px; grid-template-rows: repeat(5, 1fr); }
+  .matrix .row .cell { background: #f4f1f1; border-radius: 1px; }
+  .matrix .row .cell.f1 { background: rgba(239, 64, 34, 0.15); }
+  .matrix .row .cell.f2 { background: rgba(239, 64, 34, 0.32); }
+  .matrix .row .cell.f3 { background: rgba(239, 64, 34, 0.55); }
+  .matrix .legend {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+    font-weight: 600;
+  }
+  .matrix .legend .swatch { width: 12px; height: 12px; border-radius: 1px; display: inline-block; }
+
+  /* Competitor scan */
+  .peers {
+    width: 92%; height: 86%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .peers .peer {
+    background: #fff;
+    border: 1px solid var(--border);
+    display: grid;
+    grid-template-rows: 1fr auto;
+    overflow: hidden;
+  }
+  .peers .peer .preview { background: #ebe7e7; filter: grayscale(100%); }
+  .peers .peer .preview.busy {
+    background:
+      linear-gradient(0deg, transparent 0 50%, #d8d4d4 50% 100%),
+      repeating-linear-gradient(0deg, #f4f1f1 0 6px, #ebe7e7 6px 8px);
+  }
+  .peers .peer .preview.layered {
+    background: linear-gradient(180deg, #d8d4d4 0 30%, #ebe7e7 30% 100%);
+  }
+  .peers .peer .preview.calm {
+    background: linear-gradient(180deg, #f4f1f1 0 60%, #ebe7e7 60% 100%);
+  }
+  .peers .peer .preview.split {
+    background: linear-gradient(90deg, #d8d4d4 0 50%, #ebe7e7 50% 100%);
+  }
+  .peers .peer label {
+    font-family: var(--font-display);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    padding: 6px 8px;
+    font-weight: 600;
+    text-align: center;
+    border-top: 1px solid var(--border);
+  }
+  .peers .peer.spd { border-color: var(--accent); }
+  .peers .peer.spd label { color: var(--accent); }
+
+  /* Stakeholder/synthesis note card */
+  .note-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    padding: 32px 36px;
+    width: 88%; height: 86%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+  .note-card .marker {
+    position: absolute;
+    top: 18px; left: 22px;
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .note-card .quote {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    line-height: 1.25;
+    color: var(--text);
+    margin: 0 0 16px;
+    letter-spacing: -0.005em;
+  }
+  .note-card .source {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 600;
+  }
+
+  /* IA exploration sketch */
+  .sketch {
+    width: 88%; height: 86%;
+    background: #fff;
+    border: 1px solid var(--border);
+    padding: 18px;
+    position: relative;
+    background-image:
+      linear-gradient(rgba(54,53,55,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(54,53,55,0.04) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  .sketch .sk-row {
+    border: 1.5px solid var(--text);
+    margin-bottom: 8px;
+    height: 18px;
+    border-radius: 2px;
+    background: #fff;
+  }
+  .sketch .sk-row.tall { height: 60px; }
+  .sketch .sk-row.cluster {
+    height: 40px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    border: none;
+    background: transparent;
+  }
+  .sketch .sk-row.cluster > div {
+    border: 1.5px solid var(--text);
+    border-radius: 2px;
+    background: #fff;
+    position: relative;
+  }
+  .sketch .sk-row.cluster > div::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 1px dashed rgba(54,53,55,0.3);
+  }
+  .sketch .sk-label {
+    position: absolute;
+    bottom: 12px; right: 18px;
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .sketch.discarded { opacity: 0.55; }
+  .sketch.discarded::after {
+    content: "";
+    position: absolute;
+    top: 50%; left: 8%;
+    width: 84%; height: 2px;
+    background: var(--accent);
+    transform: rotate(-2deg);
+  }
+
+  /* Task analysis flow diagram */
+  .task-flow {
+    width: 92%; height: 86%;
+    background: #fff;
+    border: 1px solid var(--border);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+  }
+  .task-flow .step-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .task-flow .tf-node {
+    border: 1.5px solid var(--text);
+    background: #fff;
+    padding: 6px 10px;
+    color: var(--text);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .task-flow .tf-node.start { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .task-flow .tf-node.detour {
+    background: var(--bg-soft);
+    border-style: dashed;
+    color: var(--text-muted);
+    text-decoration: line-through;
+  }
+  .task-flow .tf-arrow {
+    flex: 1;
+    height: 1.5px;
+    background: var(--text);
+    position: relative;
+  }
+  .task-flow .tf-arrow::after {
+    content: "";
+    position: absolute;
+    right: -1px; top: 50%;
+    transform: translateY(-50%);
+    border-left: 6px solid var(--text);
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+  }
+  .task-flow .tf-arrow.detour { background: var(--accent); border-style: dashed; }
+  .task-flow .tf-arrow.detour::after { border-left-color: var(--accent); }
+  .task-flow .step-label {
+    font-size: 9.5px;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 12px 0 4px;
+  }
+
+  /* ============================================================
+     FOCUS / DIRECTION SHIFT (full-bleed editorial)
+     ============================================================ */
+  .focus-statement {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 76px);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+    color: #fff;
+    max-width: 22ch;
+    margin: 0 0 56px;
+  }
+  .focus-statement em { font-style: normal; color: var(--bg); opacity: 0.45; }
+
+  .choice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid rgba(255,255,255,0.3);
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    margin-bottom: 48px;
+  }
+  .choice-col {
+    padding: 32px 36px 32px 0;
+    border-right: 1px solid rgba(255,255,255,0.2);
+  }
+  .choice-col:last-child { border-right: none; padding-left: 36px; padding-right: 0; }
+  .choice-col h3 {
+    font-family: var(--font-display);
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin: 0 0 24px;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .choice-col h3 .marker {
+    font-size: 28px;
+    line-height: 1;
+    color: #fff;
+    opacity: 0.6;
+  }
+  .choice-col ul { list-style: none; padding: 0; margin: 0; }
+  .choice-col li {
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.18);
+    font-size: 15px;
+    line-height: 1.5;
+    color: #fff;
+  }
+  .choice-col li:last-child { border-bottom: none; }
+  .choice-col li b { font-weight: 600; display: block; margin-bottom: 4px; }
+  .choice-col li small {
+    display: block;
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .focus-closer {
+    font-family: var(--font-serif);
+    font-size: clamp(22px, 2.4vw, 34px);
+    line-height: 1.25;
+    color: #fff;
+    max-width: 32ch;
+    border-left: 3px solid #fff;
+    padding-left: 24px;
+    margin: 0;
+  }
+  .focus-closer .source {
+    display: block;
+    margin-top: 16px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    font-style: normal;
+  }
+
+  /* ============================================================
+     STRUCTURE / SYSTEM DESIGN — wide image-driven
+     ============================================================ */
+  .structure-rail {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 56px;
+    margin-bottom: 56px;
+  }
+  .structure-rail .rail-text {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+  .structure-rail .rail-text h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    margin: 0 0 14px;
+    line-height: 1.15;
+    color: var(--text);
+  }
+  .structure-rail .rail-text .rail-tag {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  /* Diagram canvas */
+  .diagram {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 56px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .diagram .row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .diagram .row.tight { gap: 10px; }
+  .diagram .connector {
+    width: 1.5px;
+    height: 28px;
+    background: var(--border-strong);
+    margin: 0;
+  }
+  .diagram .h-bar {
+    height: 1.5px;
+    background: var(--border-strong);
+    margin: -14px 0 14px;
+  }
+  .diagram .h-bar.span-3 { width: 65%; }
+  .diagram .h-bar.span-4 { width: 80%; }
+  .diagram .node {
+    border: 1.5px solid var(--text);
+    padding: 10px 18px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 600;
+    background: #fff;
+    color: var(--text);
+    min-width: 110px;
+    text-align: center;
+  }
+  .diagram .node.home { background: var(--accent); color: #fff; border-color: var(--accent); padding: 14px 22px; font-size: 13px; }
+  .diagram .node.task { border: 1.5px solid var(--accent); color: var(--accent); }
+  .diagram .node.leaf {
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    background: var(--bg-soft);
+    border: 1px solid var(--border-strong);
+    font-weight: 500;
+    color: var(--text-muted);
+    padding: 8px 12px;
+    min-width: 90px;
+  }
+
+  /* Template map */
+  .template-map {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 36px;
+  }
+  .template-map .tm-row {
+    display: grid;
+    grid-template-columns: 180px 60px 1fr 2fr;
+    gap: 24px;
+    align-items: center;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .template-map .tm-row:last-child { border-bottom: none; }
+  .template-map .tm-name {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    text-transform: uppercase;
+  }
+  .template-map .tm-count {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .template-map .tm-bar {
+    height: 8px;
+    background: var(--bg-soft);
+    border-radius: 1px;
+    position: relative;
+    overflow: hidden;
+  }
+  .template-map .tm-bar::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    width: var(--w, 0%);
+    background: var(--accent);
+  }
+  .template-map .tm-desc {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .template-map .tm-header {
+    display: grid;
+    grid-template-columns: 180px 60px 1fr 2fr;
+    gap: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-strong);
+    margin-bottom: 4px;
+  }
+  .template-map .tm-header span {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 700;
+  }
+
+  /* Lateral connections diagram */
+  .connections {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .connections .conn {
+    border: 1px solid var(--border);
+    padding: 18px 22px;
+    background: var(--bg);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 16px;
+    align-items: center;
+  }
+  .connections .conn .from,
+  .connections .conn .to {
+    font-family: var(--font-display);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .connections .conn .to { text-align: right; }
+  .connections .conn .arrow {
+    font-family: var(--font-display);
+    color: var(--accent);
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .connections .conn .reason {
+    grid-column: 1 / -1;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+    margin-top: 4px;
+  }
+
+  /* ============================================================
+     KEY FLOWS
+     ============================================================ */
+  .flow {
+    display: grid;
+    grid-template-columns: 5fr 4fr;
+    gap: 64px;
+    align-items: start;
+    padding: 72px 0;
+    border-top: 1px solid var(--border);
+  }
+  .flow:first-of-type { border-top: none; padding-top: 0; }
+  .flow.reverse { grid-template-columns: 4fr 5fr; }
+  .flow.reverse .flow-image { order: 2; }
+  .flow.reverse .flow-text { order: 1; }
+
+  .flow-text .step {
+    font-family: var(--font-display);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+  .flow-text h3 {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 2.4vw, 34px);
+    line-height: 1.1;
+    margin: 0 0 22px;
+    font-weight: 600;
+    max-width: 20ch;
+  }
+  .flow-text .narrative {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--text);
+    margin: 0 0 24px;
+    max-width: 50ch;
+  }
+  .flow-text .narrative em {
+    font-style: normal;
+    background: linear-gradient(180deg, transparent 65%, rgba(239,64,34,0.18) 65%);
+  }
+  .change-meta {
+    border-top: 1px solid var(--border-strong);
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 14px 20px;
+    margin: 0 0 28px;
+    padding-top: 18px;
+  }
+  .change-meta dt {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    padding-top: 3px;
+  }
+  .change-meta dd {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+  .change-meta dd b { color: var(--text); font-weight: 600; }
+
+  .annotations { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--border); }
+  .annotations li {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+  .annotations li .pin {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: var(--font-display);
+  }
+  .annotations li b { color: var(--text); font-weight: 600; }
+  .annotations-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  /* Fidelity progression strip */
+  .progression {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .prog-thumb {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .prog-thumb .frame {
+    aspect-ratio: 16 / 10;
+    background: var(--bg-soft);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .prog-thumb .frame .sketch,
+  .prog-thumb .frame .wire {
+    width: 80%;
+    height: 80%;
+    padding: 8px;
+  }
+  .prog-thumb .frame .sketch .sk-row { height: 10px; margin-bottom: 4px; }
+  .prog-thumb .frame .sketch .sk-row.tall { height: 30px; }
+  .prog-thumb .frame .sketch .sk-row.cluster { height: 22px; }
+  .prog-thumb .frame .wire { padding: 8px; gap: 6px; grid-template-rows: 10px 6px 1fr; }
+  .prog-thumb .frame .wire .wb.s { height: 6px; }
+  .prog-thumb .frame .wire .wb.grid { gap: 4px; }
+  .prog-thumb .stage-label {
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text);
+    font-weight: 600;
+    padding: 8px 10px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .prog-thumb .stage-label .from {
+    color: var(--text-faint);
+    font-weight: 500;
+  }
+
+  /* ---------- Wireframe / media containers ---------- */
+  .media {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    cursor: zoom-in;
+    position: relative;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .media:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+  .media .media-inner {
+    aspect-ratio: 16 / 10;
+    width: 100%;
+    background-color: var(--bg-soft);
+    display: grid;
+    place-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .media.tall .media-inner { aspect-ratio: 4 / 5; }
+  .media.wide .media-inner { aspect-ratio: 16 / 7; }
+  .media .zoom-hint {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: var(--text);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+    opacity: 0;
+    transition: opacity .2s ease;
+    pointer-events: none;
+    font-weight: 600;
+  }
+  .media:hover .zoom-hint { opacity: 1; }
+  .media .corner-mark {
+    position: absolute;
+    top: 12px; left: 12px;
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    font-weight: 600;
+    z-index: 2;
+  }
+
+  .wire {
+    width: 86%;
+    height: 86%;
+    background: #fff;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 0 var(--border);
+    padding: 22px;
+    display: grid;
+    gap: 12px;
+    grid-template-rows: 22px 12px 1fr;
+  }
+  .wire .wb { background: #e6e3e3; border-radius: 2px; }
+  .wire .wb.s { background: #efeded; height: 12px; }
+  .wire .wb.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 10px;
+    background: transparent;
+  }
+  .wire .wb.grid > span { background: #e6e3e3; border-radius: 2px; }
+  .wire.alt { grid-template-rows: 22px 1fr; }
+  .wire.alt .panel { display: grid; grid-template-columns: 1fr 2fr; gap: 14px; }
+  .wire.alt .panel .col { background: #efeded; border-radius: 2px; }
+  .wire.dense { grid-template-rows: 22px 1fr; }
+  .wire.dense .stack { display: grid; gap: 8px; }
+  .wire.dense .stack > span { background: #e6e3e3; border-radius: 2px; height: 30px; }
+
+  /* ============================================================
+     FINAL + REFLECTION (narrow essay)
+     ============================================================ */
+  .essay {
+    max-width: 720px;
+  }
+  .essay h3 {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 2.6vw, 36px);
+    line-height: 1.15;
+    margin: 0 0 16px;
+    font-weight: 600;
+  }
+  .essay h3 .marker {
+    color: var(--accent);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 6px;
+    font-family: var(--font-body);
+  }
+  .essay p {
+    font-size: 16.5px;
+    line-height: 1.7;
+    color: var(--text);
+    margin: 0 0 18px;
+  }
+  .essay p:last-child { margin-bottom: 0; }
+  .essay .essay-block {
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+  }
+  .essay .essay-block:first-child {
+    border-top: 1px solid var(--border-strong);
+  }
+
+  .impact-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 56px;
+    border-top: 1px solid var(--border-strong);
+    border-bottom: 1px solid var(--border-strong);
+  }
+  .impact-strip .metric {
+    padding: 22px 24px 22px 0;
+    border-right: 1px solid var(--border);
+  }
+  .impact-strip .metric:last-child { border-right: none; }
+  .impact-strip .metric:not(:first-child) { padding-left: 24px; }
+  .impact-strip .metric .label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .impact-strip .metric .num {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    color: var(--soft);
+    line-height: 1.1;
+  }
+  .impact-strip .metric .desc {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.45;
+    margin-top: 4px;
+  }
+
+  /* Tiny final visual */
+  .final-visual {
+    margin-top: 56px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .final-visual .frame {
+    aspect-ratio: 16 / 6;
+    background: var(--bg-soft);
+    display: grid;
+    place-items: center;
+    position: relative;
+  }
+  .final-visual .frame .wire { width: 70%; height: 80%; }
+  .final-visual .cap {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+    font-size: 12.5px;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .final-visual .cap b {
+    font-family: var(--font-display);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* ---------- Footer ---------- */
+  footer { border-top: 1px solid var(--border-strong); background: var(--text); color: #fff; }
+  .footer-inner {
+    padding: 56px 0;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: end;
+  }
+  .footer-inner h4 {
+    font-family: var(--font-display);
+    font-size: clamp(34px, 4vw, 60px);
+    line-height: 1;
+    margin: 0 0 12px;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+  }
+  .footer-inner h4 em { font-style: normal; color: var(--accent); }
+  .footer-inner p { margin: 0; color: rgba(255,255,255,0.55); font-size: 13px; }
+  .footer-inner .right {
+    text-align: right;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* ---------- Modal ---------- */
+  .modal {
+    position: fixed; inset: 0;
+    background: rgba(54, 53, 55, 0.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    z-index: 100;
+    cursor: zoom-out;
+    opacity: 0;
+    transition: opacity .2s ease;
+  }
+  .modal.is-open { display: flex; opacity: 1; }
+  .modal-inner {
+    max-width: 1300px;
+    width: 100%;
+    max-height: 100%;
+    background: var(--bg);
+    overflow: hidden;
+    cursor: default;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    border: 1px solid var(--border-strong);
+  }
+  .modal-head {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-display);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .modal-head .close {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--accent);
+    color: #fff;
+    font-size: 14px;
+  }
+  .modal-head .close:hover { background: #c9341a; }
+  .modal-body {
+    padding: 32px;
+    overflow: auto;
+    background: var(--bg-soft);
+    display: grid;
+    place-items: center;
+  }
+  .modal-body .stage {
+    width: 100%;
+    max-width: 1100px;
+    aspect-ratio: 16 / 10;
+    background: #fff;
+    border: 1px solid var(--border);
+    display: grid;
+    place-items: center;
+  }
+  .modal-body .stage .wire { width: 78%; height: 86%; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 980px) {
+    .section-head, .section-body { grid-template-columns: 1fr; gap: 24px; }
+    .meta { grid-template-columns: repeat(2, 1fr); }
+    .meta-cell:nth-child(2) { border-right: none; }
+    .overview-strip, .method-grid, .impact-strip,
+    .insight-block.layout-a,
+    .insight-block.layout-b,
+    .insight-block.layout-d,
+    .progression, .structure-rail, .connections, .choice-grid { grid-template-columns: 1fr; }
+    .choice-col { padding: 24px 0; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.18); }
+    .choice-col:last-child { padding-left: 0; border-bottom: none; }
+    .flow, .flow.reverse { grid-template-columns: 1fr; gap: 28px; }
+    .flow.reverse .flow-image, .flow.reverse .flow-text { order: unset; }
+    .nav-links { display: none; }
+    .nav-cta { margin-left: auto; }
+    .hero-cover { grid-template-columns: 1fr; }
+    .cover-panel { padding: 36px 28px; min-height: auto; }
+    section { padding: 80px 0; }
+    .section-num { font-size: 64px; }
+    .template-map .tm-row, .template-map .tm-header { grid-template-columns: 1fr; gap: 8px; }
+    :root { --gutter: 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ============================================================
+     PRINT — clean PDF export
+     ============================================================ */
+  @media print {
+    @page { size: letter; margin: 0.4in; }
+    html, body { background: #fff !important; color: #000 !important; font-size: 11pt; }
+    body { line-height: 1.45; }
+    .nav, .modal, .zoom-hint, .nav-cta, .footer-inner .right { display: none !important; }
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+    .container { padding: 0; max-width: 100%; }
+    section {
+      padding: 24pt 0 !important;
+      page-break-before: always;
+      break-before: page;
+      border-top: none !important;
+    }
+    section:first-of-type { page-break-before: auto; }
+    section.section--bleed { background: #EF4022 !important; padding: 24pt 0 !important; }
+    .hero { padding: 0 0 24pt !important; page-break-after: always; }
+    .hero h1 { font-size: 40pt !important; line-height: 1 !important; }
+    .hero .lede { font-size: 12pt !important; }
+    .section-head, .section-body { grid-template-columns: 140px 1fr !important; gap: 24pt !important; }
+    .section-head--stacked { display: block !important; }
+    .section-num { font-size: 56pt !important; }
+    .section-title { font-size: 26pt !important; line-height: 1.05 !important; }
+    .section-kicker { font-size: 11.5pt !important; }
+    .method-grid { grid-template-columns: repeat(3, 1fr) !important; }
+    .insight-block { page-break-inside: avoid; break-inside: avoid; }
+    .method-card, .artifact, .note-card, .flow,
+    .problem-list li, .essay-block, .reflection { page-break-inside: avoid; break-inside: avoid; }
+    .flow { grid-template-columns: 1fr 1fr !important; gap: 24pt !important; padding: 18pt 0 !important; }
+    .flow.reverse { grid-template-columns: 1fr 1fr !important; }
+    .media, .artifact { box-shadow: none !important; border: 1px solid #ccc !important; }
+    .media:hover { transform: none !important; }
+    .focus-statement { font-size: 36pt !important; color: #fff !important; }
+    a { color: inherit; text-decoration: none; }
+    footer { background: #fff !important; color: #000 !important; border-top: 2px solid #EF4022; }
+    .footer-inner { padding: 18pt 0 !important; }
+    .footer-inner h4 { font-size: 24pt !important; color: #000 !important; }
+    .footer-inner h4 em { color: #EF4022 !important; }
+    .footer-inner p { color: #555 !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#top" aria-label="SPD case study">SPD</a>
+    <div class="nav-mark">
+      <span class="label">Case Study</span>
+      Website Redesign
+    </div>
+    <div class="nav-links">
+      <a href="#overview">Overview</a>
+      <a href="#problem">Problem</a>
+      <a href="#insights">Insights</a>
+      <a href="#focus">Focus</a>
+      <a href="#structure">Structure</a>
+      <a href="#flows">Flows</a>
+      <a href="#reflection">Reflection</a>
+    </div>
+    <a class="nav-cta" href="#focus">Read Direction</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero container" id="top">
+  <span class="eyebrow">UX Case Study · Process &amp; Reasoning</span>
+  <h1>Reorganizing SPD's website — and the <em>reasoning</em> behind it.</h1>
+  <p class="lede">A working case study of the SPD website redesign. Walks through how we explored the problem, what we found, what we chose to focus on, and where the project still has open questions. The site and this document are both in progress.</p>
+
+  <div class="meta">
+    <div class="meta-cell"><div class="label">Role</div><div class="value">UX Designer / Website Redesign Team</div></div>
+    <div class="meta-cell"><div class="label">Client</div><div class="value">The Society of Publication Designers</div></div>
+    <div class="meta-cell"><div class="label">Status</div><div class="value">In progress</div></div>
+    <div class="meta-cell"><div class="label">Tools</div><div class="value">Figma</div></div>
+  </div>
+
+  <div class="hero-cover">
+    <div class="cover-panel">
+      <div>
+        <div class="kicker">SPD · Society of Publication Designers</div>
+        <h2>A home for editorial designers, reorganized for clarity.</h2>
+        <p>Competitions. Events. Resources. Membership. One site, restructured around what visitors come to do.</p>
+      </div>
+      <div class="swatches" aria-hidden="true">
+        <span style="background:#FBF8F8"></span>
+        <span style="background:#363537"></span>
+        <span style="background:#C3D0D5"></span>
+        <span style="background:#000244"></span>
+        <span style="background:#EF4022; border-color:#fff"></span>
+      </div>
+    </div>
+    <div class="cover-photo">
+      <div class="photo-bw"></div>
+      <div class="photo-overlay">
+        REDESIGN.
+        <small>Spring 2026 · in progress</small>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 01 OVERVIEW (narrow essay layout) ============ -->
+<section id="overview" class="section--narrow">
+  <div class="container container--narrow">
+    <div class="section-head section-head--stacked">
+      <div class="section-num">01<small>Overview</small></div>
+      <h2 class="section-title">A familiar website that no longer worked for its catalog.</h2>
+    </div>
+
+    <div class="overview-essay">
+      <p>The Society of Publication Designers is a community of art directors, designers, illustrators, and photographers working in editorial. Their website holds decades of <em>competition winners, recurring events, member-facing content, and organizational pages</em> — but the structure underneath had grown faster than it had been organized.</p>
+      <p>This case study walks through the redesign in detail: how we explored the problem, what we found, what we chose to focus on, and where the project still has open questions.</p>
+    </div>
+
+    <div class="overview-strip">
+      <div>
+        <div class="label">What it is</div>
+        <div class="value">Structural redesign</div>
+      </div>
+      <div>
+        <div class="label">What it isn't</div>
+        <div class="value">A rebrand</div>
+      </div>
+      <div>
+        <div class="label">Approach</div>
+        <div class="value">Process-led</div>
+      </div>
+      <div>
+        <div class="label">Status</div>
+        <div class="value">In progress</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 PROBLEM + RESEARCH SETUP (standard + wide grid) ============ -->
+<section id="problem">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-num">02<small>Problem &amp; Setup</small></div>
+      <div>
+        <h2 class="section-title">What was wrong — and how we explored it.</h2>
+        <p class="section-kicker">The problems below were visible from the existing site. Visible isn't the same as understood. To know what to redesign, we had to know why the existing structure produced these problems — three methods of investigation followed.</p>
+      </div>
+    </div>
+
+    <div class="section-body">
+      <div class="spacer"></div>
+      <div>
+        <p class="pull-quote">
+          Before redesigning the surface, redesign the structure underneath it.
+          <span class="attr">— Project framing, Website Redesign Team</span>
+        </p>
+
+        <ul class="problem-list">
+          <li>
+            <span class="idx">01</span>
+            <div>
+              <div class="row-title">Navigation didn't scale with the catalog.</div>
+              <div class="row-desc">Top-level labels were broad and inconsistent. From any single entry point, it was hard to surface the breadth of competitions, events, and resources the org actually offers.</div>
+            </div>
+          </li>
+          <li>
+            <span class="idx">02</span>
+            <div>
+              <div class="row-title">Pages were dense and hard to scan.</div>
+              <div class="row-desc">Membership and benefits content ran long, with little internal structure — making it hard to compare options or skim for the relevant detail.</div>
+            </div>
+          </li>
+          <li>
+            <span class="idx">03</span>
+            <div>
+              <div class="row-title">Information hierarchy was unclear.</div>
+              <div class="row-desc">Primary tasks like joining or entering a competition competed for visual weight with secondary content, slowing decisions on every page.</div>
+            </div>
+          </li>
+          <li>
+            <span class="idx">04</span>
+            <div>
+              <div class="row-title">Discovery was limited.</div>
+              <div class="row-desc">Moving laterally between related competitions, winners, and resources required backtracking through the navigation rather than following clear connections within the content.</div>
+            </div>
+          </li>
+          <li>
+            <span class="idx">05</span>
+            <div>
+              <div class="row-title">Visual presentation didn't match SPD's editorial caliber.</div>
+              <div class="row-desc">For an organization that recognizes excellence in editorial design, the existing site read as functional rather than design-led — undermining credibility before content was read.</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Research Setup — full-width method grid -->
+  <div class="container" style="margin-top: 96px;">
+    <div class="sub-divider">
+      <span class="num">Research Setup</span>
+      <span class="label">How we investigated the problem</span>
+      <span class="note">Three methods, one inventory</span>
+    </div>
+    <p class="sub-intro" style="max-width: 80ch;">The three methods below triangulate the problem from three angles — internal mental model (what the SPD team thinks the site is), external mental model (what visitors expect), and observed behavior (what the existing site actually demands of them). Each card reserves space for the artifact it produced; placeholders remain where work is still in progress.</p>
+
+    <div class="method-grid">
+
+      <!-- Method 1 -->
+      <div class="method-card">
+        <div class="method-head">
+          <div class="label">Method 01</div>
+          <h3>Stakeholder interviews</h3>
+        </div>
+        <dl class="method-meta">
+          <dt>Who</dt>
+          <dd>SPD team members who maintain the site and shape its editorial calendar.</dd>
+          <dt>Asked</dt>
+          <dd>How is the site read internally? Which content is non-negotiable? Where has structure drifted from intent?</dd>
+          <dt>Collected</dt>
+          <dd>Audience priorities, content lineage, the institutional reasons certain sections exist.</dd>
+        </dl>
+        <div class="method-status" data-status="done">
+          <span><span class="status-dot"></span>Conducted</span>
+          <span style="color: var(--text-faint);">Synthesis below</span>
+        </div>
+        <div class="placeholder-zone">
+          <div class="ph-tag">Artifact slot</div>
+          <div class="ph-title">Stakeholder synthesis card</div>
+          <div class="ph-desc">Paraphrased note-card with the recurring theme from interviews.</div>
+          <div class="ph-status">To be inserted</div>
+        </div>
+      </div>
+
+      <!-- Method 2 -->
+      <div class="method-card">
+        <div class="method-head">
+          <div class="label">Method 02</div>
+          <h3>User interviews</h3>
+        </div>
+        <dl class="method-meta">
+          <dt>Who</dt>
+          <dd>Current and prospective members across students, mid-career designers, and adjacent creatives.</dd>
+          <dt>Asked</dt>
+          <dd>Where do you go on the site, and why? Where do you get stuck? What did you expect to find that you didn't?</dd>
+          <dt>Collected</dt>
+          <dd>Tasks-on-arrival, mental models of the catalog, points of friction.</dd>
+        </dl>
+        <div class="method-status" data-status="progress">
+          <span><span class="status-dot"></span>In progress</span>
+          <span style="color: var(--text-faint);">Notes pending</span>
+        </div>
+        <div class="placeholder-zone">
+          <div class="ph-tag">Artifact slot</div>
+          <div class="ph-title">User interview notes</div>
+          <div class="ph-desc">Anonymized excerpts grouped by visitor type. Tagged with the task they came to do.</div>
+          <div class="ph-status">To be inserted</div>
+        </div>
+      </div>
+
+      <!-- Method 3 -->
+      <div class="method-card">
+        <div class="method-head">
+          <div class="label">Method 03</div>
+          <h3>Task analysis</h3>
+        </div>
+        <dl class="method-meta">
+          <dt>Who</dt>
+          <dd>Highest-priority visitor tasks decomposed step-by-step against the existing site.</dd>
+          <dt>Asked</dt>
+          <dd>How many steps does the site demand vs. how many the task actually requires? Where does the path force backtracking?</dd>
+          <dt>Collected</dt>
+          <dd>Step-by-step walkthroughs annotated with friction points and detours.</dd>
+        </dl>
+        <div class="method-status" data-status="progress">
+          <span><span class="status-dot"></span>In progress</span>
+          <span style="color: var(--text-faint);">Diagram preview below</span>
+        </div>
+        <div class="placeholder-zone" style="padding: 16px 14px;">
+          <div class="task-flow" style="width: 100%; height: auto; padding: 14px;">
+            <div class="step-label">Task: enter a competition</div>
+            <div class="step-row">
+              <span class="tf-node start">Land</span>
+              <span class="tf-arrow"></span>
+              <span class="tf-node">Nav: Competitions</span>
+              <span class="tf-arrow"></span>
+              <span class="tf-node">Year list</span>
+            </div>
+            <div class="step-row">
+              <span class="tf-node detour">Wrong year</span>
+              <span class="tf-arrow detour"></span>
+              <span class="tf-node">Back</span>
+              <span class="tf-arrow"></span>
+              <span class="tf-node">Submit</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Existing-site artifact: pulls observation back to evidence -->
+    <div class="sub-divider" style="margin-top: 96px;">
+      <span class="num">Artifact A</span>
+      <span class="label">Walkthrough · existing site</span>
+      <span class="note">Annotated screenshots</span>
+    </div>
+    <p class="sub-intro">Before sketching anything, we walked through the existing site and marked the moments that broke down. The annotations below are the points that came up repeatedly across reviewers and tied directly to the issues above.</p>
+
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+      <div class="artifact">
+        <div class="artifact-image">
+          <span class="corner-mark">Existing · Homepage</span>
+          <div class="shot">
+            <div class="topbar"></div>
+            <div class="hero-block"></div>
+            <div class="grid"><div></div><div></div><div></div><div></div></div>
+            <div class="annot a1" data-label="Nav: 8 broad labels"></div>
+            <div class="annot a2" data-label="Hero: 4 competing messages"></div>
+            <div class="annot a3" data-label="Module stack, no hierarchy"></div>
+          </div>
+        </div>
+        <div class="artifact-cap">
+          <div class="label">Existing homepage · annotated</div>
+          <p class="desc">Identity, current-cycle promotion, archive entry, and navigation in roughly the same visual weight.</p>
+          <div class="takeaway">
+            <b>What we took from it</b>
+            The homepage was being asked to do four jobs at once. Reducing surface area would do more than restyling.
+          </div>
+        </div>
+      </div>
+
+      <div class="artifact">
+        <div class="artifact-image">
+          <span class="corner-mark">Existing · Membership</span>
+          <div class="shot long">
+            <div class="topbar"></div>
+            <div class="lines">
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span>
+            </div>
+          </div>
+        </div>
+        <div class="artifact-cap">
+          <div class="label">Existing membership page · noted</div>
+          <p class="desc">All tier information, benefits, and FAQs presented as continuous prose. Comparing options required scrolling and re-reading.</p>
+          <div class="takeaway">
+            <b>What we took from it</b>
+            The page was structured as a narrative. The decision underneath it was a comparison. That mismatch became a direction.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 RESEARCH + INSIGHTS (varied asymmetric) ============ -->
+<section id="insights">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-num">03<small>Insights</small></div>
+      <div>
+        <h2 class="section-title">What the research actually told us.</h2>
+        <p class="section-kicker">Each insight came directly from one of the methods above. The artifact alongside it is the source — included so the reasoning can be traced back, not taken on trust.</p>
+      </div>
+    </div>
+
+    <!-- Insight 1 — text + audit matrix (5/7 split) -->
+    <div class="insight-block layout-a">
+      <div class="insight-text">
+        <div class="num">01</div>
+        <h3>The catalog isn't oversized — it's under-organized.</h3>
+        <p>From the audit: most pages cluster around a small set of recurring types — competition, winner, event, resource, member tier. Each had been built individually. The work isn't to cut content; it's to reduce the number of templates that content lives in.</p>
+        <p>This single reframe carried more weight than any other in the project. Once we treated it as a templating problem, every later decision became easier.</p>
+        <span class="source">Source — Content audit</span>
+      </div>
+      <div class="artifact">
+        <div class="artifact-image">
+          <span class="corner-mark">Audit</span>
+          <div class="matrix">
+            <div class="head">
+              <span></span>
+              <span>Member</span>
+              <span>Prospective</span>
+              <span>Student</span>
+              <span>Partner</span>
+            </div>
+            <div class="body">
+              <div class="row">
+                <span class="label">Competitions</span>
+                <div class="cell f3"></div><div class="cell f2"></div><div class="cell f1"></div><div class="cell"></div>
+              </div>
+              <div class="row">
+                <span class="label">Winners</span>
+                <div class="cell f2"></div><div class="cell f3"></div><div class="cell f2"></div><div class="cell f1"></div>
+              </div>
+              <div class="row">
+                <span class="label">Events</span>
+                <div class="cell f2"></div><div class="cell f1"></div><div class="cell f1"></div><div class="cell"></div>
+              </div>
+              <div class="row">
+                <span class="label">Membership</span>
+                <div class="cell f1"></div><div class="cell f3"></div><div class="cell f2"></div><div class="cell"></div>
+              </div>
+              <div class="row">
+                <span class="label">Resources</span>
+                <div class="cell f2"></div><div class="cell f1"></div><div class="cell f3"></div><div class="cell f1"></div>
+              </div>
+            </div>
+            <div class="legend">
+              <span class="swatch" style="background: rgba(239,64,34,0.15)"></span> Low
+              <span class="swatch" style="background: rgba(239,64,34,0.32)"></span> Medium
+              <span class="swatch" style="background: rgba(239,64,34,0.55)"></span> High intent
+            </div>
+          </div>
+        </div>
+        <div class="artifact-cap">
+          <div class="label">Page-type / audience matrix</div>
+          <p class="desc">Each existing page tagged by audience and intent. Darker cells signal where most demand concentrates.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Insight 2 — note-card + text (7/5 split, reversed) -->
+    <div class="insight-block layout-b">
+      <div class="artifact">
+        <div class="artifact-image">
+          <div class="note-card">
+            <span class="marker">Synthesis · Stakeholder review</span>
+            <p class="quote">"The site has always been a record of what SPD has done — competitions, winners, events. We haven't really thought of it as a tool for the people arriving today."</p>
+            <p class="source">— Paraphrased, internal review</p>
+          </div>
+        </div>
+        <div class="artifact-cap">
+          <div class="label">Stakeholder synthesis</div>
+          <p class="desc">A recurring theme across our conversations with the SPD team — read internally as documentation, externally as a tool.</p>
+        </div>
+      </div>
+      <div class="insight-text">
+        <div class="num">02</div>
+        <h3>The site is being read as a record, not a tool.</h3>
+        <p>This was the clearest gap between internal and external mental models. Stakeholders described the site as documenting SPD's history; visitors described it as something they were trying to use. Neither reading is wrong — but only one of them was being designed for.</p>
+        <p>The redesign has to do both. But "tool" needs to lead, because that's the unmet need.</p>
+        <span class="source">Source — Stakeholder interviews</span>
+      </div>
+    </div>
+
+    <!-- Insight 3 — full-width text-heavy with inline reference -->
+    <div class="insight-block layout-c">
+      <div class="insight-text" style="max-width: 70ch;">
+        <div class="num">03</div>
+        <h3>Membership is a comparison, not a narrative.</h3>
+        <p>The current page reads as a single long-form article. The decision visitors are making is structurally a comparison — which tier? — and the page wasn't doing the comparing for them.</p>
+        <p>Once we treated it as a comparison, the structure (and most of the layout decisions) followed directly: side-by-side first, long-form context after, one CTA per tier instead of several.</p>
+        <span class="source">Source — Audit + user interviews</span>
+      </div>
+    </div>
+
+    <!-- Insight 4 — image-dominant (4/8) -->
+    <div class="insight-block layout-d">
+      <div class="insight-text">
+        <div class="num">04</div>
+        <h3>Restraint is the unusual move in this category.</h3>
+        <p>Among peers, most sites lean visually busy — heavy hero treatments, multiple competing modules, dense type. A more disciplined system stands out, and signals competence to an audience that evaluates editorial work professionally.</p>
+        <span class="source">Source — Competitor scan</span>
+      </div>
+      <div class="artifact">
+        <div class="artifact-image wide">
+          <span class="corner-mark">Peer scan</span>
+          <div class="peers">
+            <div class="peer"><div class="preview busy"></div><label>Peer · 01</label></div>
+            <div class="peer"><div class="preview layered"></div><label>Peer · 02</label></div>
+            <div class="peer"><div class="preview calm"></div><label>Peer · 03</label></div>
+            <div class="peer"><div class="preview split"></div><label>Peer · 04</label></div>
+            <div class="peer"><div class="preview busy"></div><label>Peer · 05</label></div>
+            <div class="peer"><div class="preview layered"></div><label>Peer · 06</label></div>
+            <div class="peer"><div class="preview calm"></div><label>Peer · 07</label></div>
+            <div class="peer spd"><div class="preview busy"></div><label>SPD · current</label></div>
+          </div>
+        </div>
+        <div class="artifact-cap">
+          <div class="label">Peer landscape · 8 sites</div>
+          <p class="desc">Editorial-design and adjacent organizations, sampled for how each handles long-running competitions, events, and membership.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Insight 5 — text-dominant with small artifact (8/4) -->
+    <div class="insight-block" style="grid-template-columns: 8fr 4fr;">
+      <div class="insight-text">
+        <div class="num">05</div>
+        <h3>Lateral movement matters more than top-level nav.</h3>
+        <p>Many of the visitor paths the audit and task analysis surfaced were lateral: <em>competition → winner → next year's competition → related resource.</em> The existing site routed all of those through the top-level menu.</p>
+        <p>Connecting content directly to content was a higher-leverage change than rewriting labels — it solves the underlying movement, not the symptom of it.</p>
+        <span class="source">Source — Task analysis + audit</span>
+      </div>
+      <div class="artifact">
+        <div class="artifact-image">
+          <div class="task-flow">
+            <div class="step-label">Existing path</div>
+            <div class="step-row">
+              <span class="tf-node">Comp</span>
+              <span class="tf-arrow"></span>
+              <span class="tf-node">Nav</span>
+              <span class="tf-arrow"></span>
+              <span class="tf-node">Winner</span>
+            </div>
+            <div class="step-label">Redesigned path</div>
+            <div class="step-row">
+              <span class="tf-node start">Comp</span>
+              <span class="tf-arrow"></span>
+              <span class="tf-node">Winner</span>
+            </div>
+          </div>
+        </div>
+        <div class="artifact-cap">
+          <div class="label">Path comparison · task analysis</div>
+          <p class="desc">Same task, before vs. after.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ 04 FOCUS + DIRECTION SHIFT (full-bleed editorial) ============ -->
+<section id="focus" class="section--bleed">
+  <div class="container">
+    <div class="section-head section-head--stacked">
+      <div class="section-num">04<small>Focus &amp; Direction</small></div>
+      <h2 class="section-title">The turning point: choosing what not to do.</h2>
+    </div>
+
+    <p class="focus-statement">
+      We chose to focus on <em>structure,</em> not surface.
+    </p>
+
+    <div class="choice-grid">
+      <div class="choice-col">
+        <h3><span class="marker">+</span> What we kept in scope</h3>
+        <ul>
+          <li>
+            <b>Reorganize navigation around tasks.</b>
+            <small>The single highest-leverage move. Nav by task, not by department.</small>
+          </li>
+          <li>
+            <b>Design five recurring page templates.</b>
+            <small>Homepage, competition, winner, event, member tier — every other page inherits.</small>
+          </li>
+          <li>
+            <b>Restructure membership as a comparison.</b>
+            <small>Match the layout to the underlying decision (which tier?), not the content type (long article).</small>
+          </li>
+          <li>
+            <b>Add lateral content connections.</b>
+            <small>Winner ↔ competition, year ↔ year, resource ↔ topic — within the content, not via the menu.</small>
+          </li>
+          <li>
+            <b>Establish a restrained visual system.</b>
+            <small>One condensed display family, one body family, one accent — SPD red.</small>
+          </li>
+        </ul>
+      </div>
+
+      <div class="choice-col">
+        <h3><span class="marker">−</span> What we dropped or deferred</h3>
+        <ul>
+          <li>
+            <b>A full content rewrite.</b>
+            <small>Out of scope this cycle. Editorial follow-up handed to the SPD team with a content guideline.</small>
+          </li>
+          <li>
+            <b>Custom per-competition styling.</b>
+            <small>Replaced by the competition template. Year-specific identity now lives in the content (imagery, copy), not the structure.</small>
+          </li>
+          <li>
+            <b>A new search feature.</b>
+            <small>The audit suggested nav-level fixes would close most of the search use cases. Search becomes a follow-up if data shows otherwise.</small>
+          </li>
+          <li>
+            <b>A members-only portal.</b>
+            <small>Out of scope. Worth revisiting once the public site stabilizes — different problem with different requirements.</small>
+          </li>
+          <li>
+            <b>An immediate visual rebrand.</b>
+            <small>The system extends SPD's existing identity rather than replacing it. A rebrand is a separate project, not a side-effect.</small>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="focus-closer">
+      Every direction shift came from the same realization — the site's surface problems were structural, not visual. Restyling without restructuring would have produced a prettier version of the same site.
+      <span class="source">— Project framing, post-research</span>
+    </p>
+  </div>
+</section>
+
+<!-- ============ 05 STRUCTURE + SYSTEM DESIGN (wide image-driven) ============ -->
+<section id="structure">
+  <div class="container container--wide">
+    <div class="section-head">
+      <div class="section-num">05<small>Structure</small></div>
+      <div>
+        <h2 class="section-title">Three structural decisions did most of the work.</h2>
+        <p class="section-kicker">Navigation, templates, and lateral connections. The diagrams below are the structural artifacts behind the redesign — what content was grouped, how it's reached, and how it connects sideways.</p>
+      </div>
+    </div>
+
+    <!-- Decision 1 — Navigation -->
+    <div class="structure-rail">
+      <div class="rail-text">
+        <div class="rail-tag">Decision 01 · Navigation</div>
+        <h3>From department-led to task-led.</h3>
+        <p>The existing top-level was a list of departments and content types. The redesigned top-level is three tasks (Enter, Join, Browse) plus a quieter About entry. Templates live one click in.</p>
+      </div>
+      <div class="diagram">
+        <div class="row">
+          <div class="node home">SPD · Home</div>
+        </div>
+        <div class="connector"></div>
+        <div class="h-bar span-4"></div>
+        <div class="row">
+          <div class="node task">Enter</div>
+          <div class="node task">Join</div>
+          <div class="node task">Browse</div>
+          <div class="node task">About</div>
+        </div>
+        <div class="connector"></div>
+        <div class="h-bar span-4"></div>
+        <div class="row tight">
+          <div class="node leaf">Competition page</div>
+          <div class="node leaf">Tier comparison</div>
+          <div class="node leaf">Winners</div>
+          <div class="node leaf">Org &amp; resources</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decision 2 — Templates -->
+    <div class="structure-rail">
+      <div class="rail-text">
+        <div class="rail-tag">Decision 02 · Templates</div>
+        <h3>Five templates, carrying the catalog.</h3>
+        <p>The audit showed most pages clustered around five recurring types. The redesign formalizes that — every other page inherits from one of these. The bars below are illustrative; counts will be confirmed once the site is fully migrated.</p>
+      </div>
+      <div class="template-map">
+        <div class="tm-header">
+          <span>Template</span>
+          <span>Pages</span>
+          <span>Coverage</span>
+          <span>Carries</span>
+        </div>
+        <div class="tm-row">
+          <div class="tm-name">Homepage</div>
+          <div class="tm-count">1</div>
+          <div class="tm-bar" style="--w: 4%;"></div>
+          <div class="tm-desc">Single landing surface — smallest page in the system.</div>
+        </div>
+        <div class="tm-row">
+          <div class="tm-name">Competition</div>
+          <div class="tm-count">~12</div>
+          <div class="tm-bar" style="--w: 18%;"></div>
+          <div class="tm-desc">All annual competitions, regardless of year or category.</div>
+        </div>
+        <div class="tm-row">
+          <div class="tm-name">Winner</div>
+          <div class="tm-count">large</div>
+          <div class="tm-bar" style="--w: 88%;"></div>
+          <div class="tm-desc">Every winner detail page — the longest tail in the catalog.</div>
+        </div>
+        <div class="tm-row">
+          <div class="tm-name">Event</div>
+          <div class="tm-count">recurring</div>
+          <div class="tm-bar" style="--w: 36%;"></div>
+          <div class="tm-desc">Past and upcoming events under a single shape.</div>
+        </div>
+        <div class="tm-row">
+          <div class="tm-name">Member tier</div>
+          <div class="tm-count">3+</div>
+          <div class="tm-bar" style="--w: 12%;"></div>
+          <div class="tm-desc">Tier overview, comparison, and individual tier detail.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decision 3 — Lateral connections -->
+    <div class="structure-rail">
+      <div class="rail-text">
+        <div class="rail-tag">Decision 03 · Lateral</div>
+        <h3>Connections live in the content, not the menu.</h3>
+        <p>The existing site forced visitors back through the top-level nav for related content. The redesign builds those connections directly into the templates — fewer trips through the menu, fewer dead-ends.</p>
+      </div>
+      <div class="connections">
+        <div class="conn">
+          <span class="from">Competition</span>
+          <span class="arrow">↔</span>
+          <span class="to">Winner</span>
+          <span class="reason">A competition page surfaces its winners directly. Each winner links back to the competition that produced it — closes the most-walked lateral path on the existing site.</span>
+        </div>
+        <div class="conn">
+          <span class="from">Winner</span>
+          <span class="arrow">↔</span>
+          <span class="to">Year archive</span>
+          <span class="reason">Winners link sideways to neighboring years and categories. Browsing across years no longer requires returning to the menu.</span>
+        </div>
+        <div class="conn">
+          <span class="from">Resource</span>
+          <span class="arrow">↔</span>
+          <span class="to">Topic / event</span>
+          <span class="reason">Resources connect to related events and competitions by topic — keeps content discoverable beyond its origin section.</span>
+        </div>
+        <div class="conn">
+          <span class="from">Member tier</span>
+          <span class="arrow">→</span>
+          <span class="to">Competition entry</span>
+          <span class="reason">Membership pages link forward into the tasks members do most. Reduces the gap between considering joining and using membership.</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ 06 KEY FLOWS ============ -->
+<section id="flows">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-num">06<small>Key Flows</small></div>
+      <div>
+        <h2 class="section-title">From sketch to refined — what changed and why.</h2>
+        <p class="section-kicker">Three flows were prioritized, covering the highest-intent traffic on the existing site. For each: an early sketch, a refined wireframe, and the reasoning that connects them. Click any wireframe to expand.</p>
+      </div>
+    </div>
+
+    <div class="section-body">
+      <div class="spacer"></div>
+      <div>
+
+        <!-- FLOW 1 -->
+        <div class="flow">
+          <div class="flow-image">
+            <div class="progression">
+              <div class="prog-thumb">
+                <div class="frame">
+                  <div class="sketch">
+                    <div class="sk-row"></div>
+                    <div class="sk-row tall"></div>
+                    <div class="sk-row cluster"><div></div><div></div><div></div></div>
+                  </div>
+                </div>
+                <div class="stage-label"><span>01 · Sketch</span><span class="from">earlier</span></div>
+              </div>
+              <div class="prog-thumb">
+                <div class="frame">
+                  <div class="wire">
+                    <div class="wb"></div>
+                    <div class="wb s"></div>
+                    <div class="wb grid"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                  </div>
+                </div>
+                <div class="stage-label"><span>02 · Wireframe v1</span><span class="from">earlier</span></div>
+              </div>
+            </div>
+
+            <div class="media" data-zoom data-zoom-title="Flow 01 — Homepage (refined)">
+              <span class="corner-mark">03 · Refined</span>
+              <div class="media-inner">
+                <div class="wire">
+                  <div class="wb"></div>
+                  <div class="wb s"></div>
+                  <div class="wb grid"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                </div>
+              </div>
+              <div class="zoom-hint">Click to expand</div>
+            </div>
+          </div>
+
+          <div class="flow-text">
+            <div class="step">Flow 01 · Homepage</div>
+            <h3>From "everything at once" to "one job at a time."</h3>
+            <p class="narrative">The existing homepage was carrying identity, current-cycle promotion, archive entry, and navigation in one screen. The redesign reduces that to <em>one statement of identity</em>, three task entry points, and a single editorial strip below the fold.</p>
+
+            <dl class="change-meta">
+              <dt>Sketch → v1</dt>
+              <dd>Tested whether the homepage could survive being this small. v1 confirmed structure on its own, without visual treatment doing the work.</dd>
+              <dt>v1 → refined</dt>
+              <dd>Added the editorial strip after feedback that the page felt "too quiet" — addressed without losing the focus the v1 had earned.</dd>
+              <dt>Tradeoff</dt>
+              <dd>Less real estate to promote any single moment from the homepage. Mitigated by the strip, which the team can re-program each cycle without redesigning the page.</dd>
+            </dl>
+
+            <div class="annotations-label">On the refined wireframe</div>
+            <ul class="annotations">
+              <li><span class="pin">1</span><div><b>Identity-led hero.</b> One clear statement of what SPD is.</div></li>
+              <li><span class="pin">2</span><div><b>Three primary actions.</b> Drawn from the highest-intent paths in the audit.</div></li>
+              <li><span class="pin">3</span><div><b>Editorial strip.</b> Replaces the previous module-stack — single, scannable row.</div></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- FLOW 2 -->
+        <div class="flow reverse">
+          <div class="flow-image">
+            <div class="progression">
+              <div class="prog-thumb">
+                <div class="frame">
+                  <div class="sketch">
+                    <div class="sk-row"></div>
+                    <div class="sk-row cluster"><div></div><div></div><div></div></div>
+                    <div class="sk-row tall"></div>
+                  </div>
+                </div>
+                <div class="stage-label"><span>01 · Sketch</span><span class="from">earlier</span></div>
+              </div>
+              <div class="prog-thumb">
+                <div class="frame">
+                  <div class="wire alt">
+                    <div class="wb"></div>
+                    <div class="panel"><div class="col"></div><div class="col"></div></div>
+                  </div>
+                </div>
+                <div class="stage-label"><span>02 · Wireframe v1</span><span class="from">earlier</span></div>
+              </div>
+            </div>
+
+            <div class="media wide" data-zoom data-zoom-title="Flow 02 — Competitions & Winners (refined)">
+              <span class="corner-mark">03 · Refined</span>
+              <div class="media-inner">
+                <div class="wire alt">
+                  <div class="wb"></div>
+                  <div class="panel"><div class="col"></div><div class="col"></div></div>
+                </div>
+              </div>
+              <div class="zoom-hint">Click to expand</div>
+            </div>
+          </div>
+
+          <div class="flow-text">
+            <div class="step">Flow 02 · Competitions &amp; Winners</div>
+            <h3>From annual one-offs to a single template.</h3>
+            <p class="narrative">Each annual competition had its own page; winners were spread across pages with inconsistent layouts. The redesign collapses this into <em>one template per content type</em>, with shared filters and direct lateral links.</p>
+
+            <dl class="change-meta">
+              <dt>Sketch → v1</dt>
+              <dd>Tested a single repeating card pattern across all years and categories. v1 added the persistent filter rail, replacing the dropdown nav the existing site used.</dd>
+              <dt>v1 → refined</dt>
+              <dd>Moved lateral links (winner ↔ competition) into the content itself, rather than routing them through the menu as v1 still partially did.</dd>
+              <dt>Tradeoff</dt>
+              <dd>Loses some bespoke styling that flagship years had. Gains consistency, comparability, and substantially less per-cycle design effort going forward.</dd>
+            </dl>
+
+            <div class="annotations-label">On the refined wireframe</div>
+            <ul class="annotations">
+              <li><span class="pin">1</span><div><b>Persistent filter rail.</b> Year, category, and medium stay visible while scrolling.</div></li>
+              <li><span class="pin">2</span><div><b>Cards anchored on the work.</b> The piece itself leads — surrounding metadata is secondary.</div></li>
+              <li><span class="pin">3</span><div><b>Lateral links.</b> Winner ↔ competition connections live in the content, not the menu.</div></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- FLOW 3 -->
+        <div class="flow">
+          <div class="flow-image">
+            <div class="progression">
+              <div class="prog-thumb">
+                <div class="frame">
+                  <div class="sketch">
+                    <div class="sk-row"></div>
+                    <div class="sk-row tall"></div>
+                    <div class="sk-row"></div>
+                    <div class="sk-row"></div>
+                  </div>
+                </div>
+                <div class="stage-label"><span>01 · Sketch</span><span class="from">earlier</span></div>
+              </div>
+              <div class="prog-thumb">
+                <div class="frame">
+                  <div class="wire dense">
+                    <div class="wb"></div>
+                    <div class="stack"><span></span><span></span><span></span><span></span></div>
+                  </div>
+                </div>
+                <div class="stage-label"><span>02 · Wireframe v1</span><span class="from">earlier</span></div>
+              </div>
+            </div>
+
+            <div class="media tall" data-zoom data-zoom-title="Flow 03 — Membership (refined)">
+              <span class="corner-mark">03 · Refined</span>
+              <div class="media-inner">
+                <div class="wire dense">
+                  <div class="wb"></div>
+                  <div class="stack">
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                    <span></span>
+                  </div>
+                </div>
+              </div>
+              <div class="zoom-hint">Click to expand</div>
+            </div>
+          </div>
+
+          <div class="flow-text">
+            <div class="step">Flow 03 · Membership</div>
+            <h3>From long-form article to side-by-side comparison.</h3>
+            <p class="narrative">The existing membership page presented all tier information, benefits, and FAQs as continuous prose. The redesign reframes it around the underlying decision — <em>which tier?</em> — placing the comparison up front and keeping context after.</p>
+
+            <dl class="change-meta">
+              <dt>Sketch → v1</dt>
+              <dd>Reframed the page around the decision, not the content. v1 added anchored sub-navigation so visitors could jump rather than scroll.</dd>
+              <dt>v1 → refined</dt>
+              <dd>Reduced each tier to a single CTA. Stakeholder review showed multiple CTAs per tier were the largest source of friction in v1.</dd>
+              <dt>Tradeoff</dt>
+              <dd>Visitors who want the long-form context have to scroll past the comparison to reach it. Accepted — far more visitors are comparing than reading.</dd>
+            </dl>
+
+            <div class="annotations-label">On the refined wireframe</div>
+            <ul class="annotations">
+              <li><span class="pin">1</span><div><b>Anchored sub-nav.</b> Lets visitors jump to the relevant section.</div></li>
+              <li><span class="pin">2</span><div><b>Tier comparison.</b> Side-by-side, not stacked — matches the decision shape.</div></li>
+              <li><span class="pin">3</span><div><b>One CTA per tier.</b> Removes the previous page's stacked-options noise.</div></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 FINAL + REFLECTION (narrow essay) ============ -->
+<section id="reflection" class="section--soft section--narrow">
+  <div class="container container--narrow">
+    <div class="section-head section-head--stacked">
+      <div class="section-num">07<small>Reflection</small></div>
+      <h2 class="section-title">What worked, what didn't, what we'd improve.</h2>
+      <p class="section-kicker">Quantitative outcomes will be added once the site has been live long enough to measure against the existing baseline. Below: an honest accounting of where the project stands, written before those numbers come in.</p>
+    </div>
+
+    <div class="essay">
+      <div class="essay-block">
+        <h3><span class="marker">What worked</span>Reframing nav around tasks unlocked the rest.</h3>
+        <p>The single highest-leverage decision was reorganizing the navigation around what visitors come to do, not how SPD is internally structured. Every later decision — templates, hierarchy, which content to surface — fell out of that one reframe more easily than expected.</p>
+        <p>The second was treating recurring page types as templates instead of pages. That move came directly from the audit, and it's what makes the redesign maintainable rather than a one-time facelift.</p>
+      </div>
+
+      <div class="essay-block">
+        <h3><span class="marker">What didn't</span>Some decisions were made on too little evidence.</h3>
+        <p>User interviews were still in progress when several layout decisions were locked in. The choices we made hold up against the audit and stakeholder conversations, but a few of them — particularly around the homepage editorial strip and the membership comparison module — are running ahead of direct user input.</p>
+        <p>If those interviews surface something we didn't expect, the templates can absorb it. But the honest version is: the redesign is more confident in some areas than the evidence currently supports.</p>
+      </div>
+
+      <div class="essay-block">
+        <h3><span class="marker">What we'd improve</span>Editorial discipline needs its own system.</h3>
+        <p>Strong components only carry a site so far. The team's ongoing ability to write task-led copy and curate the homepage strip is what will keep the redesign coherent six months in — and that wasn't a primary deliverable this cycle.</p>
+        <p>Next time, I'd build the content guidelines alongside the design system, so editorial discipline is captured the same way the visual one is. That's the place the redesign is most exposed to drift.</p>
+      </div>
+    </div>
+
+    <div class="impact-strip">
+      <div class="metric">
+        <div class="label">Navigation</div>
+        <div class="num">to be added</div>
+        <div class="desc">Time-to-task on entering a competition vs. existing site.</div>
+      </div>
+      <div class="metric">
+        <div class="label">Membership</div>
+        <div class="num">to be added</div>
+        <div class="desc">Completion rate on the membership flow post-launch.</div>
+      </div>
+      <div class="metric">
+        <div class="label">Discovery</div>
+        <div class="num">to be added</div>
+        <div class="desc">Lateral movement between competitions and winners.</div>
+      </div>
+      <div class="metric">
+        <div class="label">Perception</div>
+        <div class="num">qualitative</div>
+        <div class="desc">Feedback from members and the SPD team on credibility.</div>
+      </div>
+    </div>
+
+    <div class="final-visual">
+      <div class="frame">
+        <div class="wire alt">
+          <div class="wb"></div>
+          <div class="panel"><div class="col"></div><div class="col"></div></div>
+        </div>
+      </div>
+      <div class="cap">
+        <span><b>Final · Homepage</b></span>
+        <span>The smallest page in the system — one statement, three actions, one strip.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container footer-inner">
+    <div>
+      <h4>Thanks for <em>reading.</em></h4>
+      <p>SPD Website Redesign · UX Case Study · Website Redesign Team</p>
+    </div>
+    <div class="right">
+      The Society of<br>Publication Designers
+    </div>
+  </div>
+</footer>
+
+<!-- ============ MODAL ============ -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-inner" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <span id="modal-title">Wireframe</span>
+      <button class="close" id="modal-close" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="stage" id="modal-stage"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('modal');
+  const stage = document.getElementById('modal-stage');
+  const titleEl = document.getElementById('modal-title');
+  const closeBtn = document.getElementById('modal-close');
+
+  function openModal(sourceEl) {
+    const inner = sourceEl.querySelector('.media-inner');
+    if (!inner) return;
+    const clone = inner.cloneNode(true);
+    clone.style.aspectRatio = 'auto';
+    clone.style.width = '100%';
+    clone.style.height = '100%';
+    stage.innerHTML = '';
+    stage.appendChild(clone);
+    titleEl.textContent = sourceEl.dataset.zoomTitle || 'Wireframe';
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('is-open');
+    stage.innerHTML = '';
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('[data-zoom]').forEach(el => {
+    el.addEventListener('click', () => openModal(el));
+  });
+  modal.addEventListener('click', closeModal);
+  closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeModal(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+  });
+
+  const links = document.querySelectorAll('.nav-links a');
+  const ids = Array.from(links).map(a => a.getAttribute('href').slice(1));
+  const sections = ids.map(id => document.getElementById(id)).filter(Boolean);
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        links.forEach(l => l.classList.toggle('is-active', l.getAttribute('href') === '#' + id));
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+
+  sections.forEach(s => io.observe(s));
+})();
+</script>
+
+</body>
+</html>

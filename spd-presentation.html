@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SPD Website Redesign — UX Case Study Deck</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Oswald:wght@500;600;700&family=DM+Serif+Display&display=swap">
+
+<style>
+  /* ============================================================
+     SPD WEBSITE REDESIGN — Presentation Deck
+     14 slides · scroll-snap navigation · arrow keys / space
+     ============================================================ */
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  :root {
+    --bg: #FBF8F8;
+    --bg-soft: #F2EEEE;
+    --surface: #ffffff;
+    --text: #363537;
+    --text-muted: #6c6a6e;
+    --text-faint: #a09ea1;
+    --border: rgba(54, 53, 55, 0.14);
+    --border-strong: rgba(54, 53, 55, 0.32);
+    --accent: #EF4022;
+    --soft: #C3D0D5;
+    --navy: #000244;
+
+    --font-display: "Oswald", "Archivo Narrow", "Archivo", sans-serif;
+    --font-body: "Archivo", -apple-system, sans-serif;
+    --font-serif: "DM Serif Display", "Times New Roman", serif;
+  }
+
+  html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+  }
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    color: var(--text);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+  }
+  ::selection { background: var(--accent); color: #fff; }
+
+  /* ---------- Slide base ---------- */
+  .slide {
+    width: 100vw;
+    min-height: 100vh;
+    height: 100vh;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    position: relative;
+    overflow: hidden;
+    padding: 64px 88px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+  }
+  .slide.bleed { background: var(--accent); color: #fff; }
+  .slide.dark { background: var(--text); color: #fff; }
+  .slide.soft { background: var(--bg-soft); }
+
+  /* ---------- Slide chrome ---------- */
+  .slide-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .slide.bleed .slide-head,
+  .slide.dark .slide-head { border-bottom-color: rgba(255,255,255,0.25); }
+
+  .slide-mark {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .slide-mark .logo {
+    width: 28px; height: 28px;
+    background: var(--accent);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+  .slide.bleed .slide-mark .logo { background: #fff; color: var(--accent); }
+  .slide-mark .meta {
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .slide.bleed .slide-mark .meta,
+  .slide.dark .slide-mark .meta { color: rgba(255,255,255,0.7); }
+
+  .slide-step {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .slide.bleed .slide-step { color: #fff; }
+  .slide.dark .slide-step { color: var(--accent); }
+
+  .slide-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 600;
+  }
+  .slide.bleed .slide-foot { border-top-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.7); }
+  .slide.dark .slide-foot { border-top-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.7); }
+
+  /* ---------- Slide body ---------- */
+  .slide-body {
+    padding: 40px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .slide-body.center { justify-content: center; align-items: flex-start; }
+  .slide-body.middle { justify-content: center; }
+
+  /* ---------- Type ---------- */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 28px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 28px; height: 2px;
+    background: var(--accent);
+  }
+  .slide.bleed .eyebrow { color: #fff; }
+  .slide.bleed .eyebrow::before { background: #fff; }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .display.xxl { font-size: clamp(72px, 11vw, 200px); }
+  .display.xl { font-size: clamp(56px, 7vw, 120px); }
+  .display.lg { font-size: clamp(44px, 5.4vw, 92px); }
+  .display.md { font-size: clamp(34px, 4vw, 64px); }
+
+  .display em { font-style: normal; color: var(--accent); }
+  .slide.bleed .display em { color: rgba(255,255,255,0.55); }
+
+  .lede {
+    font-size: clamp(16px, 1.4vw, 22px);
+    line-height: 1.5;
+    color: var(--text-muted);
+    max-width: 60ch;
+    margin: 0;
+  }
+  .slide.bleed .lede { color: rgba(255,255,255,0.85); }
+
+  /* ============================================================
+     SLIDE-SPECIFIC LAYOUTS
+     ============================================================ */
+
+  /* --- Slide 1 — Title --- */
+  .title-mark {
+    color: rgba(255,255,255,0.85);
+    font-family: var(--font-display);
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 56px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .title-mark .dot {
+    width: 8px; height: 8px;
+    background: #fff;
+    border-radius: 50%;
+  }
+  .title-stack {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 0.86;
+    letter-spacing: -0.012em;
+    color: #fff;
+    font-size: clamp(80px, 14vw, 240px);
+  }
+  .title-stack span {
+    display: block;
+  }
+  .title-stack .punct { color: rgba(255,255,255,0.55); }
+  .title-info {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 56px;
+    color: rgba(255,255,255,0.85);
+  }
+  .title-info .label {
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .title-info .value {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  /* --- Slide 2 — Context --- */
+  .context-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 56px;
+    margin-top: 56px;
+    border-top: 1px solid var(--border-strong);
+    padding-top: 32px;
+  }
+  .context-col h4 {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin: 0 0 14px;
+  }
+  .context-col p {
+    margin: 0;
+    font-size: clamp(16px, 1.3vw, 20px);
+    line-height: 1.55;
+    color: var(--text);
+    max-width: 48ch;
+  }
+
+  /* --- Slide 3 — Problem list --- */
+  .problem-rows {
+    margin-top: 56px;
+    border-top: 1px solid var(--border-strong);
+  }
+  .problem-rows .row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 28px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: baseline;
+  }
+  .problem-rows .row .num {
+    font-family: var(--font-display);
+    font-size: clamp(34px, 3.4vw, 56px);
+    color: var(--accent);
+    font-weight: 600;
+    line-height: 1;
+  }
+  .problem-rows .row .title {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.2vw, 36px);
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  /* --- Slide 4 — Problem visual --- */
+  .visual-pair {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    flex: 1;
+    min-height: 0;
+  }
+  .visual-pair .frame {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: grid;
+    grid-template-rows: 1fr auto;
+    overflow: hidden;
+  }
+  .visual-pair .frame .canvas {
+    background: var(--bg-soft);
+    display: grid;
+    place-items: center;
+    position: relative;
+    min-height: 0;
+  }
+  .visual-pair .frame .canvas .corner {
+    position: absolute;
+    top: 12px; left: 12px;
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    font-weight: 600;
+  }
+  .visual-pair .frame .cap {
+    padding: 18px 22px;
+    border-top: 1px solid var(--border);
+  }
+  .visual-pair .frame .cap b {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .visual-pair .frame .cap small {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+
+  /* Existing-site shot placeholder */
+  .shot {
+    width: 84%; height: 82%;
+    background: #fff;
+    border: 1px solid #cdc8c8;
+    padding: 12px;
+    display: grid;
+    gap: 6px;
+    grid-template-rows: 14px 32% 1fr;
+    filter: saturate(0.7);
+    position: relative;
+  }
+  .shot .topbar {
+    background: linear-gradient(90deg, #c8c4c4 0 50px, #d8d4d4 50px 100%);
+  }
+  .shot .hero-block {
+    background: repeating-linear-gradient(135deg, #d8d4d4 0 8px, #cfcaca 8px 16px);
+  }
+  .shot .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+  }
+  .shot .grid > div {
+    background: #ebe7e7;
+    display: grid;
+    align-content: end;
+    padding: 3px;
+    gap: 2px;
+  }
+  .shot .grid > div::before {
+    content: "";
+    background: #d8d4d4;
+    height: 50%;
+  }
+  .shot.long { grid-template-rows: 14px 1fr; }
+  .shot.long .lines { display: grid; gap: 5px; align-content: start; padding: 4px 0; }
+  .shot.long .lines > span { background: #d8d4d4; height: 4px; }
+  .shot.long .lines > span:nth-child(3n) { width: 80%; }
+  .shot.long .lines > span:nth-child(4n) { width: 65%; }
+  .shot.long .lines > span:nth-child(5n) { width: 92%; }
+  .shot .annot {
+    position: absolute;
+    border: 1.5px dashed var(--accent);
+    pointer-events: none;
+  }
+  .shot .annot.a1 { top: 18%; left: 4%; width: 92%; height: 36%; }
+  .shot .annot.a2 { top: 60%; left: 4%; width: 50%; height: 36%; }
+
+  /* --- Slide 5 — Insight (bleed) --- */
+  .insight-statement {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 0.96;
+    letter-spacing: -0.012em;
+    color: #fff;
+    font-size: clamp(60px, 9vw, 160px);
+    max-width: 18ch;
+    margin: 0;
+  }
+  .insight-statement .accent { color: rgba(255,255,255,0.55); }
+  .insight-source {
+    margin-top: 48px;
+    border-top: 1px solid rgba(255,255,255,0.3);
+    padding-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(255,255,255,0.85);
+    font-family: var(--font-display);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .insight-sub {
+    color: rgba(255,255,255,0.92);
+    font-size: clamp(15px, 1.4vw, 22px);
+    line-height: 1.5;
+    margin: 28px 0 0;
+    max-width: 52ch;
+    font-weight: 400;
+  }
+
+  /* --- Slide 6 — Direction (kept/dropped) --- */
+  .choice-cols {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--border-strong);
+    border-bottom: 1px solid var(--border-strong);
+    flex: 1;
+    min-height: 0;
+  }
+  .choice-col {
+    padding: 28px 32px 28px 0;
+    border-right: 1px solid var(--border-strong);
+    display: flex;
+    flex-direction: column;
+  }
+  .choice-col:last-child { padding-left: 32px; padding-right: 0; border-right: none; }
+  .choice-col h4 {
+    font-family: var(--font-display);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin: 0 0 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .choice-col h4 .marker {
+    font-size: 22px;
+    color: var(--accent);
+    line-height: 0;
+    font-weight: 600;
+  }
+  .choice-col ul { list-style: none; padding: 0; margin: 0; }
+  .choice-col li {
+    padding: 10px 0;
+    font-family: var(--font-display);
+    font-size: clamp(15px, 1.3vw, 20px);
+    font-weight: 500;
+    line-height: 1.25;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+  }
+  .choice-col li:last-child { border-bottom: none; }
+  .choice-col li .why {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  /* --- Slide 7 — Structure / IA diagram --- */
+  .ia-grid {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 48px;
+    flex: 1;
+    min-height: 0;
+  }
+  .ia-diagram {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 36px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+  .ia-diagram .row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .ia-diagram .connector {
+    width: 1.5px;
+    height: 24px;
+    background: var(--border-strong);
+  }
+  .ia-diagram .h-bar {
+    height: 1.5px;
+    background: var(--border-strong);
+    margin: -12px 0 12px;
+    width: 78%;
+  }
+  .ia-diagram .node {
+    border: 1.5px solid var(--text);
+    padding: 9px 16px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 600;
+    background: #fff;
+    color: var(--text);
+    min-width: 100px;
+    text-align: center;
+  }
+  .ia-diagram .node.home {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    padding: 12px 20px;
+    font-size: 13px;
+  }
+  .ia-diagram .node.task { border-color: var(--accent); color: var(--accent); }
+  .ia-diagram .node.leaf {
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    background: var(--bg-soft);
+    border: 1px solid var(--border-strong);
+    color: var(--text-muted);
+    padding: 7px 12px;
+    min-width: 86px;
+    font-weight: 500;
+  }
+  .ia-callouts {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    justify-content: center;
+  }
+  .ia-callout {
+    border-left: 2px solid var(--accent);
+    padding: 6px 0 6px 16px;
+  }
+  .ia-callout .num {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .ia-callout .what {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  .ia-callout .why {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* --- Slides 8-10 — Flows (problem/change/result) --- */
+  .flow-cols {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    flex: 1;
+    min-height: 0;
+  }
+  .flow-step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    overflow: hidden;
+  }
+  .flow-step .step-tag {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg);
+  }
+  .flow-step .step-tag .label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .flow-step .step-tag .num {
+    font-family: var(--font-display);
+    font-size: 11px;
+    color: var(--text-faint);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+  }
+  .flow-step .canvas {
+    background: var(--bg-soft);
+    display: grid;
+    place-items: center;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .flow-step .cap {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+  }
+  .flow-step .cap b {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .flow-step .cap small {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .flow-arrow {
+    display: none;
+  }
+
+  /* Sketch / wireframe placeholders for flow steps */
+  .sketch {
+    width: 78%; height: 78%;
+    background: #fff;
+    border: 1px solid var(--border);
+    padding: 14px;
+    background-image:
+      linear-gradient(rgba(54,53,55,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(54,53,55,0.04) 1px, transparent 1px);
+    background-size: 16px 16px;
+    position: relative;
+  }
+  .sketch .sk-row {
+    border: 1.5px solid var(--text);
+    margin-bottom: 6px;
+    height: 14px;
+    background: #fff;
+  }
+  .sketch .sk-row.tall { height: 44px; }
+  .sketch .sk-row.cluster {
+    height: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    border: none;
+    background: transparent;
+  }
+  .sketch .sk-row.cluster > div {
+    border: 1.5px solid var(--text);
+    background: #fff;
+  }
+  .wire {
+    width: 80%; height: 80%;
+    background: #fff;
+    border: 1px solid var(--border);
+    padding: 16px;
+    display: grid;
+    gap: 8px;
+    grid-template-rows: 16px 8px 1fr;
+  }
+  .wire .wb { background: #e6e3e3; }
+  .wire .wb.s { background: #efeded; height: 8px; }
+  .wire .wb.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 6px;
+    background: transparent;
+  }
+  .wire .wb.grid > span { background: #e6e3e3; }
+  .wire.alt { grid-template-rows: 16px 1fr; }
+  .wire.alt .panel { display: grid; grid-template-columns: 1fr 2fr; gap: 8px; }
+  .wire.alt .panel .col { background: #efeded; }
+  .wire.dense { grid-template-rows: 16px 1fr; }
+  .wire.dense .stack { display: grid; gap: 6px; }
+  .wire.dense .stack > span { background: #e6e3e3; height: 22px; }
+
+  /* --- Slide 11 — Final solution 1 (large hero) --- */
+  .final-stage {
+    flex: 1;
+    margin-top: 40px;
+    display: grid;
+    place-items: center;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    min-height: 0;
+    position: relative;
+  }
+  .final-stage .corner {
+    position: absolute;
+    top: 18px; left: 18px;
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    font-weight: 600;
+  }
+  .final-stage .wire { width: 60%; height: 80%; }
+  .final-cap {
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--font-display);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  .final-cap b { color: var(--text); }
+
+  /* --- Slide 12 — Final solution 2 (system grid) --- */
+  .system-grid {
+    flex: 1;
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    min-height: 0;
+  }
+  .system-grid .item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: grid;
+    grid-template-rows: 1fr auto;
+    overflow: hidden;
+  }
+  .system-grid .item .canvas {
+    background: var(--bg-soft);
+    display: grid;
+    place-items: center;
+    position: relative;
+    min-height: 0;
+  }
+  .system-grid .item .canvas .corner {
+    position: absolute;
+    top: 12px; left: 12px;
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    font-weight: 600;
+  }
+  .system-grid .item .cap {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+  }
+  .system-grid .item .cap b {
+    font-family: var(--font-display);
+    font-size: 14px;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .system-grid .item .cap small {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* --- Slide 13 — Reflection --- */
+  .reflect-cols {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--border-strong);
+    border-bottom: 1px solid var(--border-strong);
+  }
+  .reflect-col {
+    padding: 28px 32px 28px 0;
+    border-right: 1px solid var(--border);
+  }
+  .reflect-col:last-child { border-right: none; padding-right: 0; }
+  .reflect-col:not(:first-child) { padding-left: 32px; }
+  .reflect-col .label {
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .reflect-col h4 {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 1.8vw, 28px);
+    line-height: 1.15;
+    margin: 0 0 14px;
+    font-weight: 600;
+    max-width: 18ch;
+  }
+  .reflect-col p {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--text-muted);
+  }
+  .reflect-note {
+    margin-top: 32px;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 600;
+    font-family: var(--font-display);
+  }
+
+  /* --- Slide 14 — Closing (bleed) --- */
+  .closing-stack {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 0.86;
+    letter-spacing: -0.012em;
+    color: #fff;
+    font-size: clamp(80px, 14vw, 240px);
+  }
+  .closing-stack .punct { color: rgba(255,255,255,0.55); }
+  .closing-info {
+    margin-top: 48px;
+    color: rgba(255,255,255,0.85);
+    font-family: var(--font-display);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* ---------- Fixed UI (counter + progress) ---------- */
+  .deck-counter {
+    position: fixed;
+    bottom: 20px;
+    right: 24px;
+    z-index: 100;
+    background: var(--text);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    padding: 8px 12px;
+    pointer-events: none;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .deck-counter .total { color: rgba(255,255,255,0.55); }
+  .deck-counter .current { color: var(--accent); }
+  .deck-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: var(--accent);
+    width: 0%;
+    z-index: 100;
+    transition: width .25s ease;
+  }
+  .deck-help {
+    position: fixed;
+    bottom: 20px;
+    left: 24px;
+    z-index: 100;
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 600;
+    pointer-events: none;
+  }
+  .deck-help kbd {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    padding: 2px 6px;
+    font-family: var(--font-display);
+    font-size: 10px;
+    margin: 0 2px;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 980px) {
+    .slide { padding: 32px 24px; }
+    .context-grid, .visual-pair, .choice-cols,
+    .flow-cols, .system-grid, .ia-grid, .reflect-cols { grid-template-columns: 1fr; gap: 16px; }
+    .choice-col { border-right: none; padding: 16px 0; border-bottom: 1px solid var(--border-strong); }
+    .choice-col:last-child { padding: 16px 0; border-bottom: none; }
+    .reflect-col { border-right: none; padding: 16px 0 !important; border-bottom: 1px solid var(--border); }
+    .deck-help { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .deck-progress { transition: none; }
+  }
+
+  /* ---------- Print ---------- */
+  @media print {
+    @page { size: 13.333in 7.5in; margin: 0; }
+    html, body { background: #fff; }
+    html { scroll-snap-type: none; overflow: visible; }
+    .slide {
+      width: 100%; height: 7.5in;
+      page-break-after: always;
+      break-after: page;
+      page-break-inside: avoid;
+    }
+    .deck-counter, .deck-progress, .deck-help { display: none !important; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ FIXED CHROME ============ -->
+<div class="deck-progress" id="deck-progress"></div>
+<div class="deck-counter" id="deck-counter">
+  <span class="current">01</span><span class="sep">/</span><span class="total">14</span>
+</div>
+<div class="deck-help">
+  <kbd>&rarr;</kbd> next &middot; <kbd>&larr;</kbd> prev &middot; <kbd>Esc</kbd> exit
+</div>
+
+<!-- ============ SLIDE 01 — TITLE ============ -->
+<section class="slide bleed" data-slide="1">
+  <div class="slide-head">
+    <div class="slide-mark">
+      <span class="logo">SPD</span>
+      <span class="meta">UX Case Study &middot; 2026</span>
+    </div>
+    <span class="slide-step">01 &middot; Title</span>
+  </div>
+
+  <div class="slide-body middle">
+    <div class="title-mark"><span class="dot"></span>The Society of Publication Designers</div>
+    <h1 class="title-stack">
+      <span>Website</span>
+      <span>Redesign<span class="punct">.</span></span>
+    </h1>
+    <div class="title-info">
+      <div>
+        <div class="label">Role</div>
+        <div class="value">UX Designer / Website Redesign Team</div>
+      </div>
+      <div>
+        <div class="label">Status</div>
+        <div class="value">In progress &middot; Spring 2026</div>
+      </div>
+      <div>
+        <div class="label">Format</div>
+        <div class="value">14 slides &middot; ~5 minutes</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>SPD &middot; UX Case Study</span>
+    <span>01 / 14</span>
+  </div>
+</section>
+
+<!-- ============ SLIDE 02 — CONTEXT ============ -->
+<section class="slide" data-slide="2">
+  <div class="slide-head">
+    <div class="slide-mark">
+      <span class="logo">SPD</span>
+      <span class="meta">UX Case Study &middot; 2026</span>
+    </div>
+    <span class="slide-step">02 &middot; Context</span>
+  </div>
+
+  <div class="slide-body">
+    <div class="eyebrow">Context</div>
+    <h2 class="display lg">A community of editorial designers &mdash; built around the work, not the org chart.</h2>
+
+    <div class="context-grid">
+      <div class="context-col">
+        <h4>What SPD is</h4>
+        <p>The Society of Publication Designers has spent decades shaping how editorial design is recognized, celebrated, and taught. The site holds the catalog of that work &mdash; competitions, winners, events, resources, membership.</p>
+      </div>
+      <div class="context-col">
+        <h4>Why redesign</h4>
+        <p>Years of decisions had outpaced the structure underneath them. Visitors arriving with a specific intent &mdash; to enter, to join, to find a resource &mdash; had trouble finding it.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>Context &middot; The starting point</span>
+    <span>02 / 14</span>
+  </div>
+</section>
+
+<!-- ============ SLIDE 03 — PROBLEM 01 ============ -->
+<section class="slide" data-slide="3">
+  <div class="slide-head">
+    <div class="slide-mark">
+      <span class="logo">SPD</span>
+      <span class="meta">UX Case Study &middot; 2026</span>
+    </div>
+    <span class="slide-step">03 &middot; Problem</span>
+  </div>
+
+  <div class="slide-body">
+    <div class="eyebrow">Problem &middot; 01 of 02</div>
+    <h2 class="display lg">The site held more than its structure could carry.</h2>
+
+    <div class="problem-rows">
+      <div class="row">
+        <span class="num">01</span>
+        <span class="title">Navigation didn't scale with the catalog.</span>
+      </div>
+      <div class="row">
+        <span class="num">02</span>
+        <span class="title">Pages were dense and hard to scan.</span>
+      </div>
+      <div class="row">
+        <span class="num">03</span>
+        <span class="title">Information hierarchy was unclear.</span>
+      </div>
+      <div class="row">
+        <span class="num">04</span>
+        <span class="title">Discovery was limited &mdash; lateral movement broke down.</span>
+      </div>
+      <div class="row">
+        <span class="num">05</span>
+        <span class="title">Visual presentation didn't match SPD's editorial caliber.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>Five issues, identified before any design work</span>
+    <span>03 / 14</span>
+  </div>
+</section>
+
+<!-- ============ SLIDE 04 — PROBLEM 02 (visual) ============ -->
+<section class="slide" data-slide="4">
+  <div class="slide-head">
+    <div class="slide-mark">
+      <span class="logo">SPD</span>
+      <span class="meta">UX Case Study &middot; 2026</span>
+    </div>
+    <span class="slide-step">03 &middot; Problem</span>
+  </div>
+
+  <div class="slide-body">
+    <div class="eyebrow">Problem &middot; 02 of 02</div>
+    <h2 class="display lg">Two patterns we saw repeatedly.</h2>
+
+    <div class="visual-pair">
+      <div class="frame">
+        <div class="canvas">
+          <span class="corner">Existing &middot; Homepage</span>
+          <div class="shot">
+            <div class="topbar"></div>
+            <div class="hero-block"></div>
+            <div class="grid"><div></div><div></div><div></div><div></div></div>
+            <div class="annot a1"></div>
+            <div class="annot a2"></div>
+          </div>
+        </div>
+        <div class="cap">
+          <b>Carrying four jobs at once.</b>
+          <small>Identity, current-cycle promotion, archive entry, and navigation in roughly the same visual weight.</small>
+        </div>
+      </div>
+
+      <div class="frame">
+        <div class="canvas">
+          <span class="corner">Existing &middot; Membership</span>
+          <div class="shot long">
+            <div class="topbar"></div>
+            <div class="lines">
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span>
+            </div>
+          </div>
+        </div>
+        <div class="cap">
+          <b>Comparison treated as narrative.</b>
+          <small>Tier information, benefits, and FAQs all presented as continuous prose. Comparing options required scrolling and re-reading.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>Annotated walkthrough of the existing site</span>
+    <span>04 / 14</span>
+  </div>
+</section>
+
+<!-- ============ SLIDE 05 — KEY INSIGHT (bleed) ============ -->
+<section class="slide bleed" data-slide="5">
+  <div class="slide-head">
+    <div class="slide-mark">
+      <span class="logo">SPD</span>
+      <span class="meta">UX Case Study &middot; 2026</span>
+    </div>
+    <span class="slide-step">04 &middot; Insight</span>
+  </div>
+
+  <div class="slide-body middle">
+    <div class="eyebrow">Key Insight</div>
+    <h2 class="insight-statement">
+      The catalog isn't oversized<span class="accent">.</span><br>
+      It's <em style="font-style:normal; color: rgba(255,255,255,0.55)">under-organized</em>.
+    </h2>
+    <p class="insight-sub">From the audit: most pages cluster around five recurring types &mdash; but each had been built individually. The work isn't to cut content. It's to reduce the number of templates content lives in.</p>
+    <div class="insight-source">
+      <span>Source &mdash; Content audit</span>
+      <span>The reframe that carried the rest of the project</span>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>The single highest-leverage realization</span>
+    <span>05 / 14</span>
+  </div>
+</section>
+
+<!-- ============ SLIDE 06 — DIRECTION ============ -->
+<section class="slide" data-slide="6">
+  <div class="slide-head">
+    <div class="slide-mark">
+      <span class="logo">SPD</span>
+      <span class="meta">UX Case Study &middot; 2026</span>
+    </div>
+    <span class="slide-step">05 &middot; Direction</span>
+  </div>
+
+  <div class="slide-body">
+    <div class="eyebrow">Focus &amp; Direction</div>
+    <h2 class="display lg">We chose to focus on <em>structure</em>, not surface.</h2>
+
+    <div class="choice-cols">
+      <div class="choice-col">
+        <h4><span class="marker">+</span>Kept in scope</h4>
+        <ul>
+          <li>Reorganize navigation around tasks
+            <span class="why">Top-level by what visitors do, not how SPD is organized.</span>
+          </li>
+          <li>Five recurring page templates
+            <span class="why">Homepage, competition, winner, event, member tier.</span>
+          </li>
+          <li>Membership as a comparison
+            <span class="why">Match layout to the underlying decision.</span>
+          </li>
+          <li>Lateral content connections
+            <span class="why">Winner &harr; competition lives in content, not the menu.</span>
+          </li>
+          <li>A restrained visual system
+            <span class="why">One display family, one body, one accent &mdash; SPD red.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="choice-col">
+        <h4><span class="marker">&minus;</span>Dropped or deferred</h4>
+        <ul>
+          <li>Full content rewrite
+            <span class="why">Editorial follow-up handed back to the SPD team.</span>
+          </li>
+          <li>Custom per-competition styling
+            <span class="why">Replaced by the competition template.</span>
+          </li>
+          <li>A new search feature
+            <span class="why">Nav-level fixes close most of the use cases first.</span>
+          </li>
+          <li>A members-only portal
+            <span class="why">Different problem, different requirements &mdash; out of scope.</span>
+          </li>
+          <li>An immediate visual rebrand
+            <span class="why">The system extends SPD's identity, doesn't replace it.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>The turning point: choosing what not to do</span>
+    <span>06 / 14</span>
+  </div>
+</section>
+
+<!-- ============ SLIDE 07 — STRUCTURE ============ -->
+<section class="slide" data-slide="7">
+  <div class="slide-head">
+    <div class="slide-mark">
+      <span class="logo">SPD</span>
+      <span class="meta">UX Case Study &middot; 2026</span>
+    </div>
+    <span class="slide-step">06 &middot; Structure</span>
+  </div>
+
+  <div class="slide-body">
+    <div class="eyebrow">Structure &amp; System Design</div>
+    <h2 class="display lg">Three structural decisions did the work.</h2>
+
+    <div class="ia-grid">
+      <div class="ia-diagram">
+        <div class="row">
+          <div class="node home">SPD &middot; Home</div>
+        </div>
+        <div class="connector"></div>
+        <div class="h-bar"></div>
+        <div class="row">
+          <div class="node task">Enter</div>
+          <div class="node task">Join</div>
+          <div class="node task">Browse</div>
+          <div class="node task">About</div>
+        </div>
+        <div class="connector"></div>
+        <div class="h-bar"></div>
+        <div class="row">
+          <div class="node leaf">Competition</div>
+          <div class="node leaf">Tier compare</div>
+          <div class="node leaf">Winners</div>
+          <div class="node leaf">Resources</div>
+        </div>
+      </div>
+
+      <div class="ia-callouts">
+        <div class="ia-callout">
+          <div class="num">Decision 01</div>
+          <div class="what">Task-led navigation.</div>
+          <div class="why">Top-level reorganized around what visitors come to do.</div>
+        </div>
+        <div class="ia-callout">
+          <div class="num">Decision 02</div>
+          <div class="what">Five recurring templates.</div>
+          <div class="why">Every other page inherits from one of them.</div>
+        </div>
+        <div class="ia-callout">
+          <div class="num">Decision 03</div>
+          <div class="what">Lateral connections in content.</div>
+          <div class="why">Winner &harr; competition without going through the menu.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>Information architecture &middot; navigation thinking</span>
+    <span>07 / 14</span>
+  </div>
+</section>
+
+<!-- ============ SLIDE 08 — FLOW 01 (Homepage) ============ -->
+<section class="slide" data-slide="8">
+  <div class="slide-head">
+    <div class="slide-mark">
+      <span class="logo">SPD</span>
+      <span class="meta">UX Case Study &middot; 2026</span>
+    </div>
+    <span class="slide-step">07 &middot; Flow 01</span>
+  </div>
+
+  <div class="slide-body">
+    <div class="eyebrow">Flow 01 &middot; Homepage</div>
+    <h2 class="display md">From "everything at once" to "one job at a time."</h2>
+
+    <div class="flow-cols">
+      <div class="flow-step">
+        <div class="step-tag"><span class="label">Problem</span><span class="num">01</span></div>
+        <div class="canvas">
+          <div class="shot" style="width:78%; height:78%;">
+            <div class="topbar"></div>
+            <div class="hero-block"></div>
+            <div class="grid"><div></div><div></div><div></div><div></div></div>
+          </div>
+        </div>
+        <div class="cap">
+          <b>Carrying everything.</b>
+          <small>Identity, promo, archive, nav &mdash; all on one screen.</small>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-tag"><span class="label">Change</span><span class="num">02</span></div>
+        <div class="canvas">
+          <div class="sketch">
+            <div class="sk-row"></div>
+            <div class="sk-row tall"></div>
+            <div class="sk-row cluster"><div></div><div></div><div></div></div>
+          </div>
+        </div>
+        <div class="cap">
+          <b>Reduced surface area.</b>
+          <small>One identity statement, three task entry points.</small>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-tag"><span class="label">Result</span><span class="num">03</span></div>
+        <div class="canvas">
+          <div class="wire">
+            <div class="wb"></div>
+            <div class="wb s"></div>
+            <div class="wb grid"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          </div>
+        </div>
+        <div class="cap">
+          <b>One job at a time.</b>
+          <small>Editorial strip below carries cycle content &mdash; no longer crowding the hero.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>Problem &rarr; Change &rarr; Result</span>
+    <span>08 / 14</span>
+  </div>
+</section>
+
+<!-- ============ SLIDE 09 — FLOW 02 (Competitions) ============ -->
+<section class="slide" data-slide="9">
+  <div class="slide-head">
+    <div class="slide-mark">
+      <span class="logo">SPD</span>
+      <span class="meta">UX Case Study &middot; 2026</span>
+    </div>
+    <span class="slide-step">07 &middot; Flow 02</span>
+  </div>
+
+  <div class="slide-body">
+    <div class="eyebrow">Flow 02 &middot; Competitions &amp; Winners</div>
+    <h2 class="display md">From annual one-offs to a single template.</h2>
+
+    <div class="flow-cols">
+      <div class="flow-step">
+        <div class="step-tag"><span class="label">Problem</span><span class="num">01</span></div>
+        <div class="canvas">
+          <div class="shot" style="width:78%; height:78%;">
+            <div class="topbar"></div>
+            <div class="hero-block"></div>
+            <div class="grid"><div></div><div></div><div></div><div></div></div>
+          </div>
+        </div>
+        <div class="cap">
+          <b>Each year, redesigned.</b>
+          <small>Inconsistent layouts. Lateral movement broke down.</small>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-tag"><span class="label">Change</span><span class="num">02</span></div>
+        <div class="canvas">
+          <div class="sketch">
+            <div class="sk-row"></div>
+            <div class="sk-row cluster"><div></div><div></div><div></div></div>
+            <div class="sk-row tall"></div>
+          </div>
+        </div>
+        <div class="cap">
+          <b>One template, all years.</b>
+          <small>Persistent filter rail. Lateral links built into content.</small>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-tag"><span class="label">Result</span><span class="num">03</span></div>
+        <div class="canvas">
+          <div class="wire alt">
+            <div class="wb"></div>
+            <div class="panel"><div class="col"></div><div class="col"></div></div>
+          </div>
+        </div>
+        <div class="cap">
+          <b>Browse, don't backtrack.</b>
+          <small>Winner &harr; competition connections live in the content.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>Templates carry institutional memory better than per-year designs</span>
+    <span>09 / 14</span>
+  </div>
+</section>
+
+<!-- ============ SLIDE 10 — FLOW 03 (Membership) ============ -->
+<section class="slide" data-slide="10">
+  <div class="slide-head">
+    <div class="slide-mark">
+      <span class="logo">SPD</span>
+      <span class="meta">UX Case Study &middot; 2026</span>
+    </div>
+    <span class="slide-step">07 &middot; Flow 03</span>
+  </div>
+
+  <div class="slide-body">
+    <div class="eyebrow">Flow 03 &middot; Membership</div>
+    <h2 class="display md">From long-form article to side-by-side comparison.</h2>
+
+    <div class="flow-cols">
+      <div class="flow-step">
+        <div class="step-tag"><span class="label">Problem</span><span class="num">01</span></div>
+        <div class="canvas">
+          <div class="shot long" style="width:78%; height:78%;">
+            <div class="topbar"></div>
+            <div class="lines">
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span>
+            </div>
+          </div>
+        </div>
+        <div class="cap">
+          <b>One long article.</b>
+          <small>All tiers, benefits, and FAQs as continuous prose.</small>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-tag"><span class="label">Change</span><span class="num">02</span></div>
+        <div class="canvas">
+          <div class="sketch">
+            <div class="sk-row"></div>
+            <div class="sk-row tall"></div>
+            <div class="sk-row"></div>
+            <div class="sk-row"></div>
+          </div>
+        </div>
+        <div class="cap">
+          <b>Reframed as a decision.</b>
+          <small>Side-by-side comparison up front. Long-form context after.</small>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-tag"><span class="label">Result</span><span class="num">03</span></div>
+        <div class="canvas">
+          <div class="wire dense">
+            <div class="wb"></div>
+            <div class="stack"><span></span><span></span><span></span><span></span><span></span></div>
+          </div>
+        </div>
+        <div class="cap">
+          <b>Compare, then decide.</b>
+          <small>Anchored sub-nav. One CTA per tier &mdash; not several.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>Match layout to the underlying decision shape</span>
+    <span>10 / 14</span>
+  </div>
+</section>
+
+<!-- ============ SLIDE 11 — FINAL SOLUTION 1 ============ -->
+<section class="slide soft" data-slide="11">
+  <div class="slide-head">
+    <div class="slide-mark">
+      <span class="logo">SPD</span>
+      <span class="meta">UX Case Study &middot; 2026</span>
+    </div>
+    <span class="slide-step">08 &middot; Final</span>
+  </div>
+
+  <div class="slide-body">
+    <div class="eyebrow">Final Solution &middot; 01</div>
+    <h2 class="display md">The smallest page in the system.</h2>
+
+    <div class="final-stage">
+      <span class="corner">Refined &middot; Homepage</span>
+      <div class="wire alt">
+        <div class="wb"></div>
+        <div class="panel"><div class="col"></div><div class="col"></div></div>
+      </div>
+    </div>
+    <div class="final-cap">
+      <span><b>Homepage</b> &middot; One identity statement, three task entry points, one editorial strip.</span>
+      <span>Click target removed in deck view.</span>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>The redesigned homepage</span>
+    <span>11 / 14</span>
+  </div>
+</section>
+
+<!-- ============ SLIDE 12 — FINAL SOLUTION 2 ============ -->
+<section class="slide" data-slide="12">
+  <div class="slide-head">
+    <div class="slide-mark">
+      <span class="logo">SPD</span>
+      <span class="meta">UX Case Study &middot; 2026</span>
+    </div>
+    <span class="slide-step">08 &middot; Final</span>
+  </div>
+
+  <div class="slide-body">
+    <div class="eyebrow">Final Solution &middot; 02</div>
+    <h2 class="display md">A small system, doing the heavy lifting.</h2>
+
+    <div class="system-grid">
+      <div class="item">
+        <div class="canvas">
+          <span class="corner">Template &middot; Competition</span>
+          <div class="wire">
+            <div class="wb"></div>
+            <div class="wb s"></div>
+            <div class="wb grid"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          </div>
+        </div>
+        <div class="cap">
+          <b>Competition</b>
+          <small>One structure across all years and categories.</small>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="canvas">
+          <span class="corner">Template &middot; Winner</span>
+          <div class="wire dense">
+            <div class="wb"></div>
+            <div class="stack"><span></span><span></span><span></span><span></span><span></span></div>
+          </div>
+        </div>
+        <div class="cap">
+          <b>Winner</b>
+          <small>Work-led layout. Lateral links to neighboring years.</small>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="canvas">
+          <span class="corner">Template &middot; Member Tier</span>
+          <div class="wire dense">
+            <div class="wb"></div>
+            <div class="stack"><span></span><span></span><span></span><span></span></div>
+          </div>
+        </div>
+        <div class="cap">
+          <b>Member tier</b>
+          <small>Comparison-first layout. One CTA per tier.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>Three of five recurring templates</span>
+    <span>12 / 14</span>
+  </div>
+</section>
+
+<!-- ============ SLIDE 13 — REFLECTION ============ -->
+<section class="slide" data-slide="13">
+  <div class="slide-head">
+    <div class="slide-mark">
+      <span class="logo">SPD</span>
+      <span class="meta">UX Case Study &middot; 2026</span>
+    </div>
+    <span class="slide-step">09 &middot; Reflection</span>
+  </div>
+
+  <div class="slide-body">
+    <div class="eyebrow">Reflection &middot; Outcome</div>
+    <h2 class="display lg">What we'd carry forward.</h2>
+
+    <div class="reflect-cols">
+      <div class="reflect-col">
+        <div class="label">What worked</div>
+        <h4>Reframing nav around tasks unlocked the rest.</h4>
+        <p>Templates, hierarchy, content surfacing &mdash; all fell out of one structural decision more easily than expected.</p>
+      </div>
+      <div class="reflect-col">
+        <div class="label">What didn't</div>
+        <h4>Some decisions ran ahead of user evidence.</h4>
+        <p>Interviews were still in progress when several layouts locked. The templates can absorb feedback, but the redesign is more confident than the evidence yet supports.</p>
+      </div>
+      <div class="reflect-col">
+        <div class="label">What's next</div>
+        <h4>Editorial discipline needs its own system.</h4>
+        <p>Strong components only carry a site so far. Content guidelines should land alongside the design system, not after it.</p>
+      </div>
+    </div>
+
+    <div class="reflect-note">Quantitative outcomes &mdash; to be added once the site has been live long enough to measure against the existing baseline.</div>
+  </div>
+
+  <div class="slide-foot">
+    <span>Honest reflection &middot; written before the numbers come in</span>
+    <span>13 / 14</span>
+  </div>
+</section>
+
+<!-- ============ SLIDE 14 — CLOSING (bleed) ============ -->
+<section class="slide bleed" data-slide="14">
+  <div class="slide-head">
+    <div class="slide-mark">
+      <span class="logo">SPD</span>
+      <span class="meta">UX Case Study &middot; 2026</span>
+    </div>
+    <span class="slide-step">End</span>
+  </div>
+
+  <div class="slide-body middle">
+    <h2 class="closing-stack">
+      <span>Thank</span>
+      <span>you<span class="punct">.</span></span>
+    </h2>
+    <div class="closing-info">
+      SPD Website Redesign &middot; UX Case Study &middot; Website Redesign Team
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>The Society of Publication Designers &middot; 2026</span>
+    <span>14 / 14</span>
+  </div>
+</section>
+
+<script>
+(function () {
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  const counter = document.getElementById('deck-counter');
+  const progress = document.getElementById('deck-progress');
+  const currentEl = counter.querySelector('.current');
+  let current = 0;
+
+  function setCurrent(idx) {
+    current = Math.max(0, Math.min(total - 1, idx));
+    currentEl.textContent = String(current + 1).padStart(2, '0');
+    progress.style.width = ((current + 1) / total * 100) + '%';
+  }
+
+  function goTo(idx) {
+    const target = Math.max(0, Math.min(total - 1, idx));
+    slides[target].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setCurrent(target);
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.55) {
+        const idx = slides.indexOf(entry.target);
+        if (idx !== -1) setCurrent(idx);
+      }
+    });
+  }, { threshold: [0.55, 0.75] });
+  slides.forEach(s => io.observe(s));
+
+  window.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    switch (e.key) {
+      case 'ArrowRight':
+      case 'ArrowDown':
+      case 'PageDown':
+      case ' ':
+        if (e.shiftKey && e.key === ' ') {
+          e.preventDefault(); goTo(current - 1);
+        } else {
+          e.preventDefault(); goTo(current + 1);
+        }
+        break;
+      case 'ArrowLeft':
+      case 'ArrowUp':
+      case 'PageUp':
+        e.preventDefault(); goTo(current - 1);
+        break;
+      case 'Home':
+        e.preventDefault(); goTo(0);
+        break;
+      case 'End':
+        e.preventDefault(); goTo(total - 1);
+        break;
+      case 'f':
+      case 'F':
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen?.();
+        } else {
+          document.exitFullscreen?.();
+        }
+        break;
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('a, button, input, textarea, .deck-counter, .deck-help')) return;
+    const x = e.clientX / window.innerWidth;
+    if (x > 0.85) goTo(current + 1);
+    else if (x < 0.15) goTo(current - 1);
+  });
+
+  setCurrent(0);
+})();
+</script>
+
+</body>
+</html>
